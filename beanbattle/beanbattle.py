@@ -16,7 +16,8 @@ class BeanBattle(commands.Cog):
     async def battle(self, ctx: commands.context.Context):
         """Command description here"""
         returnEmbed = discord.Embed(title="Bean Battle")
-        
+        returnEmbed.set_author(ctx.author.display_name, icon_url=ctx.author.avatar_url)
+
         beanList = BeanLibrary.GetBeans()
         beanIndex = random.randint(0,len(beanList)-1)
         beanSelected = beanList[beanIndex]
@@ -34,18 +35,24 @@ class BeanBattle(commands.Cog):
         )
         
         outcome = ""
+        coin = ""
         if attackRoll >= beanSelected.ac:
-            outcome = ":crossed_swords: {userName} deals {damage} damage! The {beanName} is defeated!\n :sparkles: **VICTORY** :sparkles:".format(
+            outcome = ":crossed_swords: {userName} deals {damage} damage! The {beanName} Bean is defeated!\n :sparkles: **VICTORY** :sparkles:".format(
                 userName=ctx.author.display_name,
                 damage=str(max(1, attackRoll-beanSelected.ac)),
                 beanName=beanSelected.name
             )
+            coin = "{userName} gained {coins}:coin:".format(
+                userName=ctx.author.display_name,
+                coins=beanSelected.coins
+            )
         else:
             outcome = await self.GetLossMessage(ctx.author.display_name, beanSelected.name, ctx)
 
-        returnEmbed.add_field(name="---",value=battleStart,inline=False)
-        returnEmbed.add_field(name="---",value=attack,inline=False)
-        returnEmbed.add_field(name="---",value=outcome,inline=False)
+        returnEmbed.description = battleStart
+        returnEmbed.add_field(name=attack,value=outcome,inline=False)
+        if coin != "":
+            returnEmbed.add_field(name="Loot",value=coin,inline=True)
         returnEmbed.color = discord.Color.from_rgb(
             beanSelected.color[0],
             beanSelected.color[1],
