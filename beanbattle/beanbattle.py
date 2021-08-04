@@ -48,8 +48,9 @@ class BeanBattle(commands.Cog):
         else:
             outcome = await self.GetLossMessage(ctx.author.display_name, beanSelected.name, ctx)
 
-        returnEmbed.description = battleStart
-        returnEmbed.add_field(name=attack,value=outcome,inline=False)
+        returnEmbed.add_field(name="\u200B",value=battleStart,inline=False)
+        returnEmbed.add_field(name="\u200B",value=attack,inline=False)
+        returnEmbed.add_field(name="\u200B",value=outcome,inline=False)
         if coin != "":
             returnEmbed.add_field(name="Loot",value=coin,inline=True)
         returnEmbed.color = discord.Color.from_rgb(
