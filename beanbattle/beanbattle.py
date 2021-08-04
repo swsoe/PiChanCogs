@@ -41,7 +41,7 @@ class BeanBattle(commands.Cog):
                 damage=str(max(1, attackRoll-beanSelected.ac)),
                 beanName=beanSelected.name
             )
-            coin = "{userName} gained {coins}:coin:".format(
+            coin = "{userName} gained **{coins}** :coin:!!".format(
                 userName=ctx.author.display_name,
                 coins=beanSelected.coins
             )

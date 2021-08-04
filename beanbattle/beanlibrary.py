@@ -41,14 +41,14 @@ class BeanLibrary:
     
     def GetDefeatedMessage():
         return [
-            "The {beanName} Bean calls the police! {userName} is under arrest!! Off to Gay Baby Jail you go!",
-            "{userName} misses the attack! The {beanName} Bean manages to get away!",
-            "{userName} tries to take aim, but doesn’t have the guts to pull the trigger...",
-            "{userName} drops the gun and shoots themself in the foot! {userName} takes "+str(random.randint(1,12))+" damage!",
-            "{userName} attacks! The shot hits the floor and scares the {beanName} Bean away!",
-            "{userName} attempts to the corner the {beanName} Bean. It draws a gun of its own and fires! {userName} blacks out!!",
-            "The {beanName} Bean counters the attack! {userName} takes "+str(random.randint(1,99))+" damage!!! Ouch!",
-            "The {beanName} Bean instantly dematerializes!",
-            "The {beanName} Bean begs for its life! As {userName} lowers their gun, the bean escapes!",
-            "The {beanName} Bean has already defeated you. {userName}’s head explodes!!!"
+            ":oncoming_police_car: The {beanName} Bean calls the police! {userName} is under arrest!! Off to Gay Baby Jail you go!",
+            ":dash: {userName} misses the attack! The {beanName} Bean manages to get away!",
+            ":pensive: {userName} tries to take aim, but doesn’t have the guts to pull the trigger...",
+            ":mending_heart: {userName} drops the gun and shoots themself in the foot! {userName} takes "+str(random.randint(1,12))+" damage!",
+            ":dash: {userName} attacks! The shot hits the floor and scares the {beanName} Bean away!",
+            ":gun: {userName} attempts to the corner the {beanName} Bean. It draws a gun of its own and fires! {userName} blacks out!!",
+            ":dizzy_face: The {beanName} Bean counters the attack! {userName} takes "+str(random.randint(1,99))+" damage!!! Ouch!",
+            ":dizzy: The {beanName} Bean instantly dematerializes!",
+            ":dash: The {beanName} Bean begs for its life! As {userName} lowers their gun, the bean escapes!",
+            ":exploding_head: The {beanName} Bean has already defeated you. {userName}’s head explodes!!!"
         ]
