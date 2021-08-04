@@ -15,7 +15,7 @@ class BeanBattle(commands.Cog):
     @commands.command()
     async def battle(self, ctx: commands.context.Context):
         """Command description here"""
-        returnEmbed = discord.Embed(title="Bean Battle").set_author(ctx.author.display_name, icon_url=ctx.author.avatar_url)
+        returnEmbed = discord.Embed(title="Bean Battle").set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
 
         beanList = BeanLibrary.GetBeans()
         beanIndex = random.randint(0,len(beanList)-1)
