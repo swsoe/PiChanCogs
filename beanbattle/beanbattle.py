@@ -28,7 +28,7 @@ class BeanBattle(commands.Cog):
             beanName=beanSelected.name
         )
 
-        attack = ":game_die: {userName} attacks and rolls a {roll}".format(
+        attack = ":game_die: {userName} attacks and rolls a {roll}!\n".format(
             userName=ctx.author.display_name,
             roll=str(attackRoll)
         )
@@ -36,7 +36,7 @@ class BeanBattle(commands.Cog):
         outcome = ""
         coin = ""
         if attackRoll >= beanSelected.ac:
-            outcome = ":crossed_swords: {userName} deals {damage} damage! The {beanName} Bean is defeated!\n :sparkles: **VICTORY** :sparkles:".format(
+            outcome = ":crossed_swords: {userName} deals {damage} damage! The {beanName} Bean is defeated!\n :sparkles: **VICTORY** :sparkles:\n".format(
                 userName=ctx.author.display_name,
                 damage=str(max(1, attackRoll-beanSelected.ac)),
                 beanName=beanSelected.name
@@ -46,11 +46,12 @@ class BeanBattle(commands.Cog):
                 coins=beanSelected.coins
             )
         else:
-            outcome = await self.GetLossMessage(ctx.author.display_name, beanSelected.name, ctx)
+            outcome = await self.GetLossMessage(ctx.author.display_name, beanSelected.name, ctx) + "\n"
 
-        returnEmbed.add_field(name="\u200B",value=battleStart,inline=False)
-        returnEmbed.add_field(name="\u200B",value=attack,inline=False)
-        returnEmbed.add_field(name="\u200B",value=outcome,inline=False)
+        returnEmbed.description = battleStart + attack + outcome
+        # returnEmbed.add_field(name="\u200B",value=battleStart,inline=False)
+        # returnEmbed.add_field(name="\u200B",value=attack,inline=False)
+        # returnEmbed.add_field(name="\u200B",value=outcome,inline=False)
         if coin != "":
             returnEmbed.add_field(name="Loot",value=coin,inline=True)
         returnEmbed.color = discord.Color.from_rgb(
