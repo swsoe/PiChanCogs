@@ -46,3 +46,8 @@ class Player(commands.Cog):
         
         e = discord.Embed(title=titleString, description=descriptionString)
         await ctx.send(embed=e)
+
+    @commands.command()
+    async def currenthp(self, ctx: commands.context.Context):
+        hp = await self.config.user(ctx.author).currentLife()
+        await ctx.send("Current life is: " + str(hp))
