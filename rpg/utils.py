@@ -3,7 +3,7 @@ import discord
 
 class Utils():
     """Returns whether a user has a given role. The 'role' argument can either be the role as an object, or the exact name of the role."""
-    async def MemberHasRole(self, member, role):
+    async def MemberHasRole(member, role):
         if isinstance(role, str):
             role = discord.utils.get(member.guild.roles, name=role)
         if role is None:
