@@ -8,14 +8,16 @@ class Player(commands.Cog):
     def __init__(self):
         self.config = Config.get_conf(self, 677362587088)
         default_user = {
-            "currentLife": 100,
-            "maxLife": 100,
-            "currentCool": 0,
-            "currentCoins": 0,
-            "currentXP": 0,
-            "inventory": {
-                "trophies": {},
-                "consumables": {}
+            "stats": {
+                "currentLife": 100,
+                "maxLife": 100,
+                "currentCool": 0,
+                "currentCoins": 0,
+                "currentXP": 0,
+                "inventory": {
+                    "trophies": {},
+                    "consumables": {}
+                }
             }
         }
         self.config.register_user(**default_user)
@@ -31,15 +33,15 @@ class Player(commands.Cog):
             user = ctx.author
         
         
-        data = await self.config.user(user)
+        data = await self.config.user(user).stats()
         statLines = [
-            "**{}** :coin:".format(await self.config.user(user).currentCoins())
-            #"Life Points: **{}** / **{}**".format(data.currentLife(), data.maxLife),
-            #"Cool Points: **{}**".format(data.currentCool),
-            #"", # Compulsory blank line
-            #"**{}** XP".format(data.currentXP),
-            #"",
-            #"**{}** :coin:".format(data.currentCoins)
+            "**{}** :coin:".format(await self.config.user(user).currentCoins()),
+            "Life Points: **{}** / **{}**".format(data.currentLife(), data.maxLife),
+            "Cool Points: **{}**".format(data.currentCool),
+            "", # Compulsory blank line
+            "**{}** XP".format(data.currentXP),
+            "",
+            "**{}** :coin:".format(data.currentCoins)
         ]
 
         titleString = ":trophy: {}'s Statistics :bar_chart:".format(str(ctx.author.display_name))
