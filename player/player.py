@@ -55,7 +55,7 @@ class Player(commands.Cog):
             user = ctx.author
         
         data = await self.config.user(user).stats()
-        e = discord.Embed(title=titleString, description=str(data))
+        e = discord.Embed(title="{}'s Stat Code".format(str(ctx.author.display_name)), description=str(data))
         ctx.send(e)
 
     @commands.command()
