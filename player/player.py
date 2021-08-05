@@ -54,6 +54,6 @@ class Player(commands.Cog):
     async def currentxp(self, ctx: commands.context.Context):
         try:
             data = await self.config.user(ctx.author).stats()
-            await ctx.send(data.currentXP)
+            await ctx.send(data["currentXP"])
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
