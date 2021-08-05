@@ -50,6 +50,15 @@ class Player(commands.Cog):
         await ctx.send(embed=e)
 
     @commands.command()
+    async def printstats(self, ctx:commands.context.Context, user:discord.User = None):
+        if user is None:
+            user = ctx.author
+        
+        data = await self.config.user(user).stats()
+        e = discord.Embed(title=titleString, description=str(data))
+        ctx.send(e)
+
+    @commands.command()
     async def iamahumblebeggar(self, ctx:commands.context.Context):
         user = ctx.author
 
