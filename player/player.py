@@ -56,7 +56,7 @@ class Player(commands.Cog):
         
         data = await self.config.user(user).stats()
         e = discord.Embed(title="{}'s Stat Code".format(str(ctx.author.display_name)), description=str(data))
-        ctx.send(e)
+        ctx.send(embed=e)
 
     @commands.command()
     async def iamahumblebeggar(self, ctx:commands.context.Context):
