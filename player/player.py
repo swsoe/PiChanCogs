@@ -33,7 +33,7 @@ class Player(commands.Cog):
         
         data = await self.config.get_raw(user.id)
         statLines = [
-            "**{}** :coin:".format(self.config.user(user).currentCoins)
+            "**{}** :coin:".format(self.config.user(user).currentCoins())
             #"Life Points: **{}** / **{}**".format(data.currentLife(), data.maxLife),
             #"Cool Points: **{}**".format(data.currentCool),
             #"", # Compulsory blank line
