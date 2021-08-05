@@ -63,3 +63,11 @@ class Player(commands.Cog):
     async def currenthp(self, ctx: commands.context.Context):
         hp = await self.config.user(ctx.author).currentLife()
         await ctx.send("Current life is: " + str(hp))
+    async def addxp(self, ctx: commands.context.Context, xp: int):
+        try:
+            data = await self.config.user(ctx.author).stats()
+            data["currentXP"] = data["currentXP"] + xp
+            await ctx.send(data["currentXP"])
+            await self.config.user(ctx.author).stats.set(data)
+        except Exception as e:
+            await ctx.send("Unexpected error:"+ str(e))
