@@ -66,7 +66,7 @@ class Player(commands.Cog):
         data = await self.config.user(user).stats()
         coins = data["currentCoins"]
 
-        if coins > 10:
+        if coins >= 10:
             return
         else:
             await self.config.user(user).stats.currentCoins.set(10)
