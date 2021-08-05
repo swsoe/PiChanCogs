@@ -35,12 +35,13 @@ class Player(commands.Cog):
         
         data = await self.config.user(user).stats()
         statLines = [
-            "Life Points: **{}** / **{}**".format(data.currentLife, data.maxLife),
-            "Cool Points: **{}**".format(data.currentCool),
-            "", # Compulsory blank line
-            "**{}** XP".format(data.currentXP),
-            "",
-            "**{}** :coin:".format(data.currentCoins)
+            str(data)
+            #"Life Points: **{}** / **{}**".format(data.currentLife, data.maxLife),
+            #"Cool Points: **{}**".format(data.currentCool),
+            #"", # Compulsory blank line
+            #"**{}** XP".format(data.currentXP),
+            #"",
+            #"**{}** :coin:".format(data.currentCoins)
         ]
 
         titleString = ":trophy: {}'s Statistics :bar_chart:".format(str(ctx.author.display_name))
