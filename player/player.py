@@ -31,7 +31,7 @@ class Player(commands.Cog):
             user = ctx.author
         
         
-        data = await ctx.Config.member(user)
+        data = await self.config.member(user)
         statLines = [
             "Life Points: **{}** / **{}**".format(data.currentLife(), data.maxLife),
             "Cool Points: **{}**".format(data.currentCool),
