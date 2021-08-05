@@ -62,9 +62,6 @@ class Player(commands.Cog):
             await ctx.send("I spare you a crumb. You now have **10** :coin:.")
 
     @commands.command()
-    async def currenthp(self, ctx: commands.context.Context):
-        hp = await self.config.user(ctx.author).currentLife()
-        await ctx.send("Current life is: " + str(hp))
     async def addxp(self, ctx: commands.context.Context, xp: int):
         try:
             data = await self.config.user(ctx.author).stats()
