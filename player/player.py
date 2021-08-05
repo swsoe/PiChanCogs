@@ -7,7 +7,7 @@ class Player(commands.Cog):
 
     def __init__(self):
         self.config = Config.get_conf(self, 677362587088)
-        default_member = {
+        default_user = {
             "currentLife": 100,
             "maxLife": 100,
             "currentCool": 0,
@@ -18,7 +18,7 @@ class Player(commands.Cog):
                 "consumables": {}
             }
         }
-        self.config.register_member(**default_member)
+        self.config.register_user(**default_user)
 
         self.requiredXP = [ # The XP required for a particular level, for levels 1 through 30.
             0, 100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500,
@@ -26,7 +26,7 @@ class Player(commands.Cog):
             22000, 26000, 31000, 37000, 45000, 54000, 64000, 75000, 87000, 100000 ]
 
     @commands.command()
-    async def stats(self, ctx: commands.context.Context, user: discord.Member = None):
+    async def stats(self, ctx: commands.context.Context, user: discord.User = None):
         if user is None:
             user = ctx.author
         
