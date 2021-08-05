@@ -51,6 +51,9 @@ class Player(commands.Cog):
         await ctx.send(embed=e)
 
     @commands.command()
-    async def currenthp(self, ctx: commands.context.Context):
-        hp = await self.config.user(ctx.author).currentLife()
-        await ctx.send("Current life is: " + str(hp))
+    async def currentxp(self, ctx: commands.context.Context):
+        try:
+            data = await self.config.user(ctx.author).stats()
+            await ctx.send(data.currentXP)
+        except Exception as e:
+            await ctx.send("Unexpected error:"+ str(e))
