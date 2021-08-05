@@ -54,7 +54,7 @@ class RPG(commands.Cog):
         e = discord.Embed(title=titleString, description="```"+str(data)+"```")
         await ctx.send(embed=e)
 
-    @commands.command()
+    @commands.command(aliases=["beg"])
     async def iamahumblebeggar(self, ctx:commands.context.Context):
         member = ctx.author
 
