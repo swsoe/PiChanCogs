@@ -42,21 +42,6 @@ class PiChan(commands.Cog):
         await audio.play(self, ctx, query='https://www.youtube.com/watch?v=D6KRIMASing')
 
     @commands.command()
-    async def killbean(self, ctx: commands.context.Context):
-        """Attempt to kill the bean on a D20 roll, >= 15 succeeds"""
-        roll = random.randint(1, 20)
-        outcome = ""
-        if roll >= 15:
-            outcome = " kills "
-        else:
-            outcome = " misses "
-        e = discord.Embed(
-            title=str(ctx.author.display_name) + " attempts to kill the bean.",
-            description=str(ctx.author.display_name) + outcome + "the bean with a roll of " + str(roll)
-        ).set_image(url="https://cdn.discordapp.com/attachments/872495284574388286/872495612644425738/killbean.gif")
-        await ctx.send(embed=e)
-
-    @commands.command()
     async def fortunecookie(self, ctx: commands.context.Context):
         f = await self.config.fortunes()
         p = await self.config.fortunePics()
