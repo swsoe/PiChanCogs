@@ -158,9 +158,7 @@ class PiChan(commands.Cog):
         await menu(ctx, item_list, DEFAULT_CONTROLS)
 
     """Returns whether a user has a given role. The 'role' argument can either be the role as an object, or the exact name of the role."""
-    async def UserHasRole(self, user : discord.User, role):
-        ctx = commands.context.Context
-
+    async def UserHasRole(self, ctx:commands.context.Context, user: discord.User, role):
         if isinstance(role, str):
             role = discord.utils.get(ctx.guild.roles, name=role)
         if role is None:
