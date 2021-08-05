@@ -53,12 +53,13 @@ class Player(commands.Cog):
     async def iamahumblebeggar(self, ctx:commands.context.Context):
         user = ctx.author
 
-        coins = int(await self.config.user(user).get("currentCoins"))
+        data = await self.config.user(user).stats()
+        coins = data["currentCoins"]
 
         if coins > 10:
             return
         else:
-            await self.config.user(user).currentCoins.set(10)
+            await self.config.user(user).stats.currentCoins.set(10)
             await ctx.send("I spare you a crumb. You now have **10** :coin:.")
 
     @commands.command()
