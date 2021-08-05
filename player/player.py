@@ -53,7 +53,9 @@ class Player(commands.Cog):
     async def iamahumblebeggar(self, ctx:commands.context.Context):
         user = ctx.author
 
-        if await int(self.config.user(user).get("currentCoins")) > 10:
+        coins = int(await self.config.user(user).get("currentCoins"))
+
+        if coins > 10:
             return
         else:
             await self.config.user(user).currentCoins.set(10)
