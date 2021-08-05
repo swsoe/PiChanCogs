@@ -1,6 +1,7 @@
 from redbot.core import commands
 from redbot.core import Config
 import discord
+import random
 
 from .utils import Utils
 
@@ -60,11 +61,43 @@ class RPG(commands.Cog):
         data = await self.config.member(member).stats()
         coins = data["currentCoins"]
 
+        beggarStrings = [
+            "\"I spare you a crumb.\"",
+            "\"A tuppence for you, my boy!\"",
+            "\"Keep your distance, filth!\" A man you approach throws some money at you before briskly walking away!",
+            "You encounter a dead bourgeois on the side of the road and decide to feast on his flesh."
+        ]
+
+        nopeStrings = [
+            "You must be **THIS POOR** to receive this handout.",
+            "Not so fast, greedyguts.",
+            "You've got *pleeenty* of money already.",
+            "Did you forget your wallet at home or something?"
+        ]
+
         if coins >= 10:
-            return
+            randNum = random.randint(0, len(nopeStrings)-1)
+            await ctx.send("{} You must have fewer than **10** :coin: to humbly beg.".format(nopeStrings[randNum]))
         else:
             await self.config.member(member).stats.currentCoins.set(10)
-            await ctx.send("I spare you a crumb. You now have **10** :coin:.")
+            randNum = random.randint(0, len(beggarStrings)-1)
+            await ctx.send("{} You now have **10** :coin:.".format(beggarStrings[randNum]))
+
+    @commands.command()
+    async def bankruptme(self, ctx:commands.context.Context):
+        member = ctx.author
+        data = await self.config.member(member).stats()
+
+        bankruptStrings = [
+            "A hungry ~~bean~~ nature spirit answers your call and consumes your funds!",
+            "You throw your coin purse into the nearest river.",
+            "With great might, you crush your coin purse in the palm of your hand.",
+            "You suddenly discover your money has been replaced with play money."
+        ]
+        
+        randNum = random.randint(0, len(bankruptStrings)-1)
+        await self.config.member(member).stats.currentCoins.set(0)
+        await ctx.send("{} You now have **0** :coin:.".format(bankruptStrings[randNum]))
 
     @commands.command()
     async def addxp(self, ctx: commands.context.Context, xp: int):
