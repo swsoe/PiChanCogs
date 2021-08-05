@@ -35,13 +35,12 @@ class Player(commands.Cog):
         
         data = await self.config.user(user).stats()
         statLines = [
-            str(data)
-            #"Life Points: **{}** / **{}**".format(data.currentLife, data.maxLife),
-            #"Cool Points: **{}**".format(data.currentCool),
-            #"", # Compulsory blank line
-            #"**{}** XP".format(data.currentXP),
-            #"",
-            #"**{}** :coin:".format(data.currentCoins)
+            "Life Points: **{}** / **{}**".format(data["currentLife"], data["maxLife"]),
+            "Cool Points: **{}**".format(data["currentCool"]),
+            "", # Compulsory blank line
+            "**{}** XP".format(data["currentXP"]),
+            "",
+            "**{}** :coin:".format(data["currentCoins"])
         ]
 
         titleString = ":trophy: {}'s Statistics :bar_chart:".format(str(ctx.author.display_name))
@@ -49,6 +48,16 @@ class Player(commands.Cog):
         
         e = discord.Embed(title=titleString, description=descriptionString)
         await ctx.send(embed=e)
+
+    @commands.command()
+    async def iamahumblebeggar(self, ctx:commands.context.Context):
+        user = ctx.author
+
+        if await self.config.user(user).get("currentCoins") > 10:
+            return
+        else:
+            await self.config.user(user).currentCoins.set(10)
+            await ctx.send("I spare you a crumb. You now have **10** :coin:.")
 
     @commands.command()
     async def currenthp(self, ctx: commands.context.Context):
