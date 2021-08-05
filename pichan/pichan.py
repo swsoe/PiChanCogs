@@ -158,14 +158,13 @@ class PiChan(commands.Cog):
         await menu(ctx, item_list, DEFAULT_CONTROLS)
 
     """Returns whether a user has a given role. The 'role' argument can either be the role as an object, or the exact name of the role."""
-    async def UserHasRole(self, ctx:commands.context.Context, user, role):
+    async def MemberHasRole(self, member, role):
         if isinstance(role, str):
-            role = discord.utils.get(ctx.guild.roles, name=role)
+            role = discord.utils.get(member.guild.roles, name=role)
         if role is None:
             print("The given role does not exist, returning false!")
             return False
         else:
-            member = ctx.guild.fetchMember(user.id)
             roles = member.roles
             for i in roles:
                 if i.id == role.id:
@@ -174,5 +173,8 @@ class PiChan(commands.Cog):
 
     @commands.command()
     async def rolecheck(self, ctx: commands.context.Context, user: discord.Member, role: str):
-        output = await self.UserHasRole(user, role)
-        await ctx.send(str(output))
+        try:
+            output = await self.MemberHasRole(user, role)
+            await ctx.send(str(output))
+        except Exception as e:
+            await ctx.send("Unexpected error:"+ str(e))
