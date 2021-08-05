@@ -51,9 +51,11 @@ class Player(commands.Cog):
         await ctx.send(embed=e)
 
     @commands.command()
-    async def currentxp(self, ctx: commands.context.Context):
+    async def addxp(self, ctx: commands.context.Context, xp: int):
         try:
             data = await self.config.user(ctx.author).stats()
+            data["currentXP"] = data["currentXP"] + xp
             await ctx.send(data["currentXP"])
+            await self.config.user(ctx.author).stats.set(data)
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
