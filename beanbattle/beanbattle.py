@@ -65,7 +65,7 @@ class BeanBattle(commands.Cog):
     async def GetLossMessage(self, user: str, bean: str, ctx) -> str:
         messages = BeanLibrary.GetDefeatedMessage()
         messageIndex = random.randint(0,len(messages)-1)
-        if messageIndex == 0:
+        if messageIndex == 0 and ctx.author.voice.channel != None: 
             channel = ctx.guild.get_channel(674052950620110859)
             await ctx.author.move_to(channel)
         return messages[messageIndex].format(
