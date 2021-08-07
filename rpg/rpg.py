@@ -134,6 +134,6 @@ class RPG(commands.Cog):
     @commands.command()
     async def clear(self, ctx: commands.context.Context):
         try:
-            await self.config.member(ctx.author).clear()
+            await self.config.clear_all_members()
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
