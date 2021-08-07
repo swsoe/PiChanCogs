@@ -108,27 +108,16 @@ class RPG(commands.Cog):
 
     @commands.command()
     async def addxp(self, ctx: commands.context.Context, xp: int):
-        try:
             player: PlayerCharacter = await self.config.member(ctx.author).playerContainer()
             player.xp += xp
             await ctx.send(player.xp)
             await self.config.member(ctx.author).playerContainer.set(player)
-        except Exception as e:
-            await ctx.send("Unexpected error:"+ str(e))
 
     @commands.command()
     async def rolecheck(self, ctx: commands.context.Context, member: discord.Member, role: str):
         try:
             output = await Utils.MemberHasRole(member, role)
             await ctx.send(str(output))
-        except Exception as e:
-            await ctx.send("Unexpected error:"+ str(e))
-
-    @commands.command()
-    async def printuserstats(self, ctx: commands.context.Context):
-        try:
-            player: PlayerCharacter = await self.config.user(ctx.author).playerContainer()
-            await ctx.send(player.currentLife)
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
 
