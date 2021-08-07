@@ -10,7 +10,7 @@ class RPG(commands.Cog):
     def __init__(self):
         self.config = Config.get_conf(self, 677362587088)
         default_member = {
-            "playerContainer" : PlayerCharacter .Player(100, 100, 0, 0, 0)
+            "playerContainer" : PlayerCharacter(100, 100, 0, 0, 0)
         }
 
         self.config.register_member(**default_member)
