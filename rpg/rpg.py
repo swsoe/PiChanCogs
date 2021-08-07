@@ -1,6 +1,6 @@
 from redbot.core import commands
 from redbot.core import Config
-from .models.playerCharacter import PlayerCharacter
+from .models.player import Player
 import discord
 import random
 
@@ -9,9 +9,18 @@ from .utils import Utils
 class RPG(commands.Cog):
     def __init__(self):
         self.config = Config.get_conf(self, 677362587088)
-        defaultPlayer = PlayerCharacter(100, 100, 0, 0, 0)
         default_member = {
-            "playerContainer" : defaultPlayer
+            "player": {
+                "currentLife": 100,
+                "maxLife": 100,
+                "coolPoints": 0,
+                "coins": 0,
+                "xp": 0,
+                "inventory": {
+                    "trophies": {},
+                    "consumables": {}
+                }
+            }
         }
 
         self.config.register_member(**default_member)
@@ -22,7 +31,7 @@ class RPG(commands.Cog):
             if member is None:
                 member = ctx.author
             
-            player = await self.config.member(member).playerContainer()
+            player = await self.config.member(member).player()
             statLines = [
                 "Life Points: **{}** / **{}**".format(player.currentLife, player.maxLife),
                 "Cool Points: **{}**".format(player.coolPoints),
@@ -47,7 +56,7 @@ class RPG(commands.Cog):
                 member = ctx.author
             
             titleString = "{}'s Stat Code".format(str(ctx.author.display_name))
-            player = await self.config.member(member).playerContainer()
+            player = await self.config.member(member).player()
             e = discord.Embed(title=titleString, description="```"+str(player)+"```")
             await ctx.send(embed=e)
         except Exception as e:
@@ -58,7 +67,7 @@ class RPG(commands.Cog):
         try:
             member = ctx.author
 
-            player: PlayerCharacter = await self.config.member(member).playerContainer()
+            player: PlayerCharacter = await self.config.member(member).player()
             coins = player.coins
 
             beggarStrings = [
@@ -80,7 +89,7 @@ class RPG(commands.Cog):
                 await ctx.send("{} You must have fewer than **10** :coin: to humbly beg.".format(nopeStrings[randNum]))
             else:
                 player.coins += 10
-                await self.config.member(member).playerContainer.set(player)
+                await self.config.member(member).player.set(player)
                 randNum = random.randint(0, len(beggarStrings)-1)
                 await ctx.send("{} You now have **10** :coin:.".format(beggarStrings[randNum]))
         except Exception as e:
@@ -90,7 +99,7 @@ class RPG(commands.Cog):
     async def bankruptme(self, ctx:commands.context.Context):
         try:
             member = ctx.author
-            player: PlayerCharacter = await self.config.member(member).playerContainer()
+            player: PlayerCharacter = await self.config.member(member).player()
 
             bankruptStrings = [
                 "A hungry ~~bean~~ nature spirit answers your call and consumes your funds!",
@@ -101,22 +110,30 @@ class RPG(commands.Cog):
             
             randNum = random.randint(0, len(bankruptStrings)-1)
             player.coins = 0
-            await self.config.member(member).playerContainer.set(player)
+            await self.config.member(member).player.set(player)
             await ctx.send("{} You now have **0** :coin:.".format(bankruptStrings[randNum]))
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
 
     @commands.command()
     async def addxp(self, ctx: commands.context.Context, xp: int):
-            player: PlayerCharacter = await self.config.member(ctx.author).playerContainer()
+            player: PlayerCharacter = await self.config.member(ctx.author).player()
             player.xp += xp
             await ctx.send(player.xp)
-            await self.config.member(ctx.author).playerContainer.set(player)
+            await self.config.member(ctx.author).player.set(player)
 
     @commands.command()
     async def rolecheck(self, ctx: commands.context.Context, member: discord.Member, role: str):
         try:
             output = await Utils.MemberHasRole(member, role)
             await ctx.send(str(output))
+        except Exception as e:
+            await ctx.send("Unexpected error:"+ str(e))
+
+    @commands.command()
+    async def testModel(self, ctx: commands.context.Context):
+        try:
+            p = Player(self, ctx.author)
+            await ctx.send("Current life:" + str(p.GetCurrentLife()))
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
