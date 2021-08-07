@@ -1,1 +1,1 @@
-from . import playerCharacter
+from . import player

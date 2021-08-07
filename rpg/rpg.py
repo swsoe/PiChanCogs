@@ -67,7 +67,7 @@ class RPG(commands.Cog):
         try:
             member = ctx.author
 
-            player: PlayerCharacter = await self.config.member(member).player()
+            player = await self.config.member(member).player()
             coins = player.coins
 
             beggarStrings = [
@@ -99,7 +99,7 @@ class RPG(commands.Cog):
     async def bankruptme(self, ctx:commands.context.Context):
         try:
             member = ctx.author
-            player: PlayerCharacter = await self.config.member(member).player()
+            player = await self.config.member(member).player()
 
             bankruptStrings = [
                 "A hungry ~~bean~~ nature spirit answers your call and consumes your funds!",
@@ -117,7 +117,7 @@ class RPG(commands.Cog):
 
     @commands.command()
     async def addxp(self, ctx: commands.context.Context, xp: int):
-            player: PlayerCharacter = await self.config.member(ctx.author).player()
+            player = await self.config.member(ctx.author).player()
             player.xp += xp
             await ctx.send(player.xp)
             await self.config.member(ctx.author).player.set(player)
