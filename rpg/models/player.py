@@ -1,9 +1,8 @@
-from .. import RPG
 from discord import Member
 
 class Player():
 
-    def __init__(self, rpgCore: "RPG", member: "Member"):
+    def __init__(self, rpgCore, member: "Member"):
         self.rpgCore = rpgCore
         self.member = member
 
@@ -11,4 +10,5 @@ class Player():
         return await self.rpgCore.config.member(self.member).player()
 
     async def GetCurrentLife(self) -> int:
+        self.rpgCore.config
         return await self.GetPlayer()["currentLife"]
