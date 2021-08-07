@@ -134,6 +134,6 @@ class RPG(commands.Cog):
     @commands.command()
     async def clear(self, ctx: commands.context.Context):
         try:
-            await self.config.member(ctx.author).playerContainer.set(PlayerCharacter(100, 100, 0, 0, 0))
+            await self.config.member(ctx.author).clear()
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
