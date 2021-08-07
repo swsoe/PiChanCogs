@@ -1,4 +1,3 @@
-from discord import player
 from redbot.core import commands
 from redbot.core import Config
 from .models.playerCharacter import PlayerCharacter
