@@ -10,7 +10,7 @@ class RPG(commands.Cog):
     def __init__(self):
         self.config = Config.get_conf(self, 677362587088)
         default_member = {
-            "player" : Player(100, 100, 0, 0, 0)
+            "playerContainer" : Player(100, 100, 0, 0, 0)
         }
 
         self.config.register_member(**default_member)
@@ -21,7 +21,7 @@ class RPG(commands.Cog):
             if member is None:
                 member = ctx.author
             
-            player = await self.config.member(member).player()
+            player = await self.config.member(member).playerContainer()
             statLines = [
                 "Life Points: **{}** / **{}**".format(player.currentLife, player.maxLife),
                 "Cool Points: **{}**".format(player.coolPoints),
@@ -46,7 +46,7 @@ class RPG(commands.Cog):
                 member = ctx.author
             
             titleString = "{}'s Stat Code".format(str(ctx.author.display_name))
-            player = await self.config.member(member).player()
+            player = await self.config.member(member).playerContainer()
             e = discord.Embed(title=titleString, description="```"+str(player)+"```")
             await ctx.send(embed=e)
         except Exception as e:
@@ -57,7 +57,7 @@ class RPG(commands.Cog):
         try:
             member = ctx.author
 
-            player: Player = await self.config.member(member).player()
+            player: Player = await self.config.member(member).playerContainer()
             coins = player.coins
 
             beggarStrings = [
@@ -79,7 +79,7 @@ class RPG(commands.Cog):
                 await ctx.send("{} You must have fewer than **10** :coin: to humbly beg.".format(nopeStrings[randNum]))
             else:
                 player.coins += 10
-                await self.config.member(member).player.set(player)
+                await self.config.member(member).playerContainer.set(player)
                 randNum = random.randint(0, len(beggarStrings)-1)
                 await ctx.send("{} You now have **10** :coin:.".format(beggarStrings[randNum]))
         except Exception as e:
@@ -89,7 +89,7 @@ class RPG(commands.Cog):
     async def bankruptme(self, ctx:commands.context.Context):
         try:
             member = ctx.author
-            player: Player = await self.config.member(member).player()
+            player: Player = await self.config.member(member).playerContainer()
 
             bankruptStrings = [
                 "A hungry ~~bean~~ nature spirit answers your call and consumes your funds!",
@@ -100,7 +100,7 @@ class RPG(commands.Cog):
             
             randNum = random.randint(0, len(bankruptStrings)-1)
             player.coins = 0
-            await self.config.member(member).player.set(player)
+            await self.config.member(member).playerContainer.set(player)
             await ctx.send("{} You now have **0** :coin:.".format(bankruptStrings[randNum]))
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
@@ -108,10 +108,10 @@ class RPG(commands.Cog):
     @commands.command()
     async def addxp(self, ctx: commands.context.Context, xp: int):
         try:
-            player: Player = await self.config.member(ctx.author).player()
+            player: Player = await self.config.member(ctx.author).playerContainer()
             player.xp += xp
             await ctx.send(player.xp)
-            await self.config.member(ctx.author).player.set(player)
+            await self.config.member(ctx.author).playerContainer.set(player)
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
 
@@ -126,7 +126,7 @@ class RPG(commands.Cog):
     @commands.command()
     async def printuserstats(self, ctx: commands.context.Context):
         try:
-            player: Player = await self.config.user(ctx.author).player()
+            player: Player = await self.config.user(ctx.author).playerContainer()
             await ctx.send(player.currentLife)
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
@@ -134,6 +134,6 @@ class RPG(commands.Cog):
     @commands.command()
     async def clear(self, ctx: commands.context.Context):
         try:
-            await self.config.member(ctx.author).player.clear()
+            await self.config.member(ctx.author).playerContainer.clear()
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
