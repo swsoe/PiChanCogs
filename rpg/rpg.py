@@ -1,6 +1,6 @@
 from redbot.core import commands
 from redbot.core import Config
-from models.player import Player
+from .models.player import Player
 import discord
 import random
 
