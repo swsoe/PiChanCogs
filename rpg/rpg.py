@@ -127,7 +127,7 @@ class RPG(commands.Cog):
     @commands.command()
     async def printuserstats(self, ctx: commands.context.Context):
         try:
-            player = await self.config.user(ctx.author).player
+            player = await self.config.user(ctx.author).player()
             await ctx.send(player.currentLife)
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
