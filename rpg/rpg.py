@@ -1,5 +1,6 @@
 from redbot.core import commands
 from redbot.core import Config
+from models.player import Player
 import discord
 import random
 
@@ -21,7 +22,13 @@ class RPG(commands.Cog):
                 }
             }
         }
+
+        default_user = {
+            "player" : Player(100, 100, 0, 0, 0)
+        } 
+
         self.config.register_member(**default_member)
+        self.config.register_user(**default_user)
 
     @commands.command()
     async def stats(self, ctx: commands.context.Context, member: discord.Member = None):
@@ -114,5 +121,13 @@ class RPG(commands.Cog):
         try:
             output = await Utils.MemberHasRole(member, role)
             await ctx.send(str(output))
+        except Exception as e:
+            await ctx.send("Unexpected error:"+ str(e))
+
+    @commands.command()
+    async def printuserstats(self, ctx: commands.context.Context):
+        try:
+            player = await self.config.user(ctx.author).player
+            await ctx.send(player.currentLife)
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
