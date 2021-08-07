@@ -9,8 +9,9 @@ from .utils import Utils
 class RPG(commands.Cog):
     def __init__(self):
         self.config = Config.get_conf(self, 677362587088)
+        defaultPlayer = PlayerCharacter(100, 100, 0, 0, 0)
         default_member = {
-            "playerContainer" : PlayerCharacter(100, 100, 0, 0, 0)
+            "playerContainer" : defaultPlayer
         }
 
         self.config.register_member(**default_member)
@@ -133,7 +134,4 @@ class RPG(commands.Cog):
 
     @commands.command()
     async def clear(self, ctx: commands.context.Context):
-        try:
             await self.config.clear_all_members()
-        except Exception as e:
-            await ctx.send("Unexpected error:"+ str(e))
