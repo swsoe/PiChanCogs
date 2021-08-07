@@ -2,7 +2,8 @@ from json import JSONEncoder
 
 class PlayerCharacter(JSONEncoder):
     
-    def default(self, o):   
+    def default(self, o):
+        print ("Serializing")
         return o.__dict__
 
     def __init__(self, currentLife: int, maxLife: int, coolPoints: int, coins: int, xp: int):

@@ -120,7 +120,3 @@ class RPG(commands.Cog):
             await ctx.send(str(output))
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
-
-    @commands.command()
-    async def printtest(self, ctx: commands.context.Context):
-        print("test")
