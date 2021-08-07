@@ -7,11 +7,11 @@ class Player():
         self.coins = coins
         self.xp = xp
 
-    # def __str__(self):
-    #     return "HP: {currentLife}/{maxLife} Cool Points: {coolPoints}, Coins: {coins}, XP: {xp}".format(
-    #         currentLife = self.currentLife,
-    #         maxLife = self.maxLife,
-    #         coolPoints = self.coolPoints,
-    #         coins = self.coins,
-    #         xp = self.xp
-    #     )
+    def __str__(self):
+        return "HP: {currentLife}/{maxLife} Cool Points: {coolPoints}, Coins: {coins}, XP: {xp}".format(
+            currentLife = self.currentLife,
+            maxLife = self.maxLife,
+            coolPoints = self.coolPoints,
+            coins = self.coins,
+            xp = self.xp
+        )

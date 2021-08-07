@@ -130,3 +130,7 @@ class RPG(commands.Cog):
             await ctx.send(player.currentLife)
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
+
+    @commands.command()
+    async def clear(self, ctx: commands.context.Context):
+        self.config.member(ctx.author).player.clear()
