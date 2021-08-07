@@ -134,6 +134,6 @@ class RPG(commands.Cog):
     async def testModel(self, ctx: commands.context.Context):
         try:
             p = Player(self, ctx.author)
-            await ctx.send("Current life:" + str(p.GetCurrentLife()))
+            await ctx.send("Current life:" + str(await p.GetCurrentLife()))
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
