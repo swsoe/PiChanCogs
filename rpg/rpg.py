@@ -36,6 +36,7 @@ class RPG(commands.Cog):
                 "Life Points: **{}** / **{}**".format(player.GetCurrentLife(), player.GetMaxLife()),
                 "Cool Points: **{}**".format(player.GetCoolPoints()),
                 "", # Compulsory blank line
+                "Level **{}**".format(player.GetLevel()),
                 "**{}** XP".format(player.GetXP()),
                 "",
                 "**{}** :coin:".format(player.GetCoins())
@@ -117,10 +118,10 @@ class RPG(commands.Cog):
 
     @commands.command()
     async def addxp(self, ctx: commands.context.Context, xp: int):
-            player = await self.config.member(ctx.author).player()
-            player.xp += xp
-            await ctx.send(player.xp)
-            await self.config.member(ctx.author).player.set(player)
+            player = Player(await self.config.member(ctx.author).player())
+            player.AddXP(xp)
+            await ctx.send("Added **{}** XP".format(xp))
+            await self.config.member(ctx.author).player.set(player.ToDictionary())
 
     @commands.command()
     async def rolecheck(self, ctx: commands.context.Context, member: discord.Member, role: str):
