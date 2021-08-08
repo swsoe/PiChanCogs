@@ -67,8 +67,8 @@ class RPG(commands.Cog):
         try:
             member = ctx.author
 
-            player = await self.config.member(member).player()
-            coins = player.coins
+            player = Player(await self.config.member(member).player())
+            coins = player.GetCoins
 
             beggarStrings = [
                 "\"I spare you a crumb.\"",
@@ -88,8 +88,8 @@ class RPG(commands.Cog):
                 randNum = random.randint(0, len(nopeStrings)-1)
                 await ctx.send("{} You must have fewer than **10** :coin: to humbly beg.".format(nopeStrings[randNum]))
             else:
-                player.coins += 10
-                await self.config.member(member).player.set(player)
+                player.AddCoins(10)
+                await self.config.member(member).player.set(player.ToDictionary())
                 randNum = random.randint(0, len(beggarStrings)-1)
                 await ctx.send("{} You now have **10** :coin:.".format(beggarStrings[randNum]))
         except Exception as e:
