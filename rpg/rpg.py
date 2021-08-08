@@ -31,14 +31,14 @@ class RPG(commands.Cog):
             if member is None:
                 member = ctx.author
             
-            player = await self.config.member(member).player()
+            player = Player(await self.config.member(member).player())
             statLines = [
-                "Life Points: **{}** / **{}**".format(player.currentLife, player.maxLife),
-                "Cool Points: **{}**".format(player.coolPoints),
+                "Life Points: **{}** / **{}**".format(player.GetCurrentLife(), player.GetMaxLife()),
+                "Cool Points: **{}**".format(player.GetCoolPoints()),
                 "", # Compulsory blank line
-                "**{}** XP".format(player.xp),
+                "**{}** XP".format(player.GetXP()),
                 "",
-                "**{}** :coin:".format(player.coins)
+                "**{}** :coin:".format(player.GetCoins())
             ]
 
             titleString = ":trophy: {}'s Statistics :bar_chart:".format(str(ctx.author.display_name))

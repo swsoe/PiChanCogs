@@ -1,14 +1,38 @@
-from discord import Member
-
 class Player():
 
-    def __init__(self, rpgCore, member: "Member"):
-        self.rpgCore = rpgCore
-        self.member = member
+    def __init__(self, playerData):
+        self.currentLife = playerData["currentLife"]
+        self.maxLife = playerData["maxLife"]
+        self.coolPoints = playerData["coolPoints"]
+        self.coins = playerData["coins"]
+        self.xp = playerData["xp"]
+        self.trophies = playerData["inventory"]["trophies"]
+        self.consumables = playerData["inventory"]["consumables"]
 
-    async def GetPlayer(self):
-        return await self.rpgCore.config.member(self.member).player()
+    def ToDictionary(self):
+        return {
+            "currentLife": self.currentLife,
+            "maxLife": self.maxLife,
+            "coolPoints": self.coolPoints,
+            "coins": self.coins,
+            "xp": self.xp,
+            "inventory": {
+                "trophies": self.trophies,
+                "consumables": self.consumables
+            }
+        }
 
-    async def GetCurrentLife(self) -> int:
-        playerData = await self.GetPlayer()
-        return playerData["currentLife"]
+    def GetCurrentLife(self) -> int:
+        return self.currentLife
+
+    def GetMaxLife(self) -> int:
+        return self.maxLife
+
+    def GetCoolPoints(self) -> int:
+        return self.coolPoints
+
+    def GetCoins(self) -> int:
+        return self.coins
+
+    def GetXP(self) -> int:
+        return self.xp
