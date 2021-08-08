@@ -68,7 +68,7 @@ class RPG(commands.Cog):
             member = ctx.author
 
             player = Player(await self.config.member(member).player())
-            coins = player.GetCoins
+            coins = player.GetCoins()
 
             beggarStrings = [
                 "\"I spare you a crumb.\"",
