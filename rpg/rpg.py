@@ -86,11 +86,11 @@ class RPG(commands.Cog):
             ]
 
             if coins >= 10:
-                await ctx.send("{} You must have fewer than **10** :coin: to humbly beg.".format(random.choose(nopeStrings)))
+                await ctx.send("{} You must have fewer than **10** :coin: to humbly beg.".format(random.choice(nopeStrings)))
             else:
                 player.AddCoins(10)
                 await self.config.member(member).player.set(player.ToDictionary())
-                await ctx.send("{} You now have **10** :coin:.".format(random.choose(beggarStrings)))
+                await ctx.send("{} You now have **10** :coin:.".format(random.choice(beggarStrings)))
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
 
@@ -109,7 +109,7 @@ class RPG(commands.Cog):
             
             player.SetCoins(0)
             await self.config.member(member).player.set(player.ToDictionary())
-            await ctx.send("{} You now have **0** :coin:.".format(random.choose(bankruptStrings)))
+            await ctx.send("{} You now have **0** :coin:.".format(random.choice(bankruptStrings)))
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
 

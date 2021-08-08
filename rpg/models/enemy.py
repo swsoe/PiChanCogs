@@ -36,7 +36,7 @@ class Enemy():
 
     # Returns a single value, randomly determined from the available coin payouts
     def GetRandomCoins(self) -> int:
-        return random.choose(self.GetCoins())
+        return random.choice(self.GetCoins())
 
     # TODO: Functions for random attacks:
     # - determining if desperation attack procs,
