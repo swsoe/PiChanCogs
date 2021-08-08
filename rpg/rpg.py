@@ -42,7 +42,7 @@ class RPG(commands.Cog):
                 "**{}** :coin:".format(player.GetCoins())
             ]
 
-            titleString = ":trophy: {}'s Statistics :bar_chart:".format(str(ctx.author.display_name))
+            titleString = ":trophy: {}'s Statistics :bar_chart:".format(str(member.display_name))
             descriptionString = "\n".join(statLines)
             
             e = discord.Embed(title=titleString, description=descriptionString)
