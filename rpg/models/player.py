@@ -34,8 +34,12 @@ class Player():
     def GetCoins(self) -> int:
         return self.coins
 
-    def AddCoins(self, coins) -> bool:
+    def AddCoins(self, coins: int) -> bool:
         self.coins += coins
+        return True
+
+    def SetCoins(self, coins: int) -> bool:
+        self.coins = coins
         return True
 
     def GetXP(self) -> int:

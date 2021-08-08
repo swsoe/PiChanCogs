@@ -99,7 +99,7 @@ class RPG(commands.Cog):
     async def bankruptme(self, ctx:commands.context.Context):
         try:
             member = ctx.author
-            player = await self.config.member(member).player()
+            player = Player(await self.config.member(member).player())
 
             bankruptStrings = [
                 "A hungry ~~bean~~ nature spirit answers your call and consumes your funds!",
@@ -109,8 +109,8 @@ class RPG(commands.Cog):
             ]
             
             randNum = random.randint(0, len(bankruptStrings)-1)
-            player.coins = 0
-            await self.config.member(member).player.set(player)
+            player.SetCoins(0)
+            await self.config.member(member).player.set(player.ToDictionary())
             await ctx.send("{} You now have **0** :coin:.".format(bankruptStrings[randNum]))
         except Exception as e:
             await ctx.send("Unexpected error:"+ str(e))
