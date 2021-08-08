@@ -37,7 +37,7 @@ class RPG(commands.Cog):
                 "Cool Points: **{}**".format(player.GetCoolPoints()),
                 "", # Compulsory blank line
                 "Level **{}**".format(player.GetLevel()),
-                "**{}** XP".format(player.GetXP()),
+                "**{}** XP   (**{}** to next level)".format(player.GetXP(), player.GetRemainingXP()),
                 "",
                 "**{}** :coin:".format(player.GetCoins())
             ]

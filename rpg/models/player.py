@@ -65,3 +65,10 @@ class Player():
                 break
             level += 1
         return level
+
+    def GetRemainingXP(self) -> int:
+        level = self.GetLevel()
+        if level >= len(self.requiredXP):
+            return 0
+        else:
+            return self.requiredXP[level] - self.GetXP()
