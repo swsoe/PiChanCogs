@@ -118,7 +118,8 @@ class RPG(commands.Cog):
 
     @commands.command()
     async def addxp(self, ctx: commands.context.Context, xp: int):
-            player = Player(await self.config.member(ctx.author).player())
+            member = ctx.author
+            player = Player(await self.config.member(member).player())
             player.AddXP(xp)
             await ctx.send("Added **{}** XP".format(xp))
             await self.config.member(ctx.author).player.set(player.ToDictionary())
