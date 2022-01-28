@@ -4,6 +4,7 @@ from redbot.core import Config
 from redbot.core.utils.chat_formatting import box, pagify
 from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 from redbot.core.data_manager import cog_data_path
+from collections import deque
 from typing import List
 import discord
 import random
@@ -18,7 +19,10 @@ class PiChan(commands.Cog):
             "fortunePics": [],
             "fileTypes": [".jpg", "jpeg", ".png", ".gif", "gifv"],
             "lastFortune": 0,
-            "lastPic": 0
+            "lastPic": 0,
+            "lastFortunes" : [],
+            "lastPics" : [],
+            "toRememberCount" : 5
         }
         self.config.register_global(**default_global)
 
@@ -52,17 +56,60 @@ class PiChan(commands.Cog):
             titleString = titles[tnum].format(str(ctx.author.display_name))
         fnum = random.randint(0, len(f) - 1)
         pnum = random.randint(0, len(p) - 1)
-        lastfnum = await self.config.lastFortune()
-        lastpnum = await self.config.lastPic()
-        while fnum == lastfnum:
+        
+        #lastfnum = await self.config.lastFortune()
+        #lastpnum = await self.config.lastPic()
+        # while fnum == lastfnum:
+        #     fnum = random.randint(0, len(f) - 1)
+        # while pnum == lastpnum:
+        #     pnum = random.randint(0, len(p) - 1)
+        
+        fortuneQueue = deque(await self.config.lastFortunes())
+        picQueue = deque(await self.config.lastPics())
+        queueLength = await self.config.toRememberCount()
+        while not fortuneQueue.__contains__(fnum):
             fnum = random.randint(0, len(f) - 1)
-        while pnum == lastpnum:
+        while not picQueue.__contains__(pnum):
             pnum = random.randint(0, len(p) - 1)
+        
+        if fortuneQueue.__len__ >= queueLength:
+            while fortuneQueue.__len__ >= queueLength:
+                fortuneQueue.popleft()
+        fortuneQueue.append(fnum)
+
+        if picQueue.__len__ >= queueLength:
+            while picQueue.__len__ >= queueLength:
+                picQueue.popleft()
+        picQueue.append(fnum)
+
         e = discord.Embed(title=titleString, description=f[fnum]).set_image(url=p[pnum])
         await self.config.lastFortune.set(fnum)
         await self.config.lastPic.set(pnum)
         await ctx.send(embed=e)
     
+    @commands.command()
+    @commands.is_owner()
+    async def setLogCount(self, ctx: commands.context.Context, count: int):
+        if count > 0:
+            await self.config.toRememberCount.set(count)
+            await ctx.send("I will now remember the last {} fortunes/pics.".format(count))
+        else:
+            await ctx.send("Invalid input")
+
+    @commands.command()
+    @commands.is_owner()
+    async def checkSave(self, ctx: commands.context.Context):
+        lastFortune = await self.config.lastFortune()
+        lastPic = await self.config.lastPic()
+        lastFortunes = await self.config.lastFortunes()
+        lastPics = await self.config.lastPics()
+        toRememberCount = await self.config.toRememberCount()
+        await ctx.send("Last fortune index: {}".format(lastFortune))
+        await ctx.send("Last pic index: {}".format(lastPic))
+        await ctx.send("Last fortune list: {}".format(lastFortunes))
+        await ctx.send("Last pic list: {}".format(lastPics))
+        await ctx.send("Remember count: {}".format(toRememberCount))
+
     @commands.command()
     async def fortuneadd(self, ctx: commands.context.Context, fortune: str):
         await ctx.send("Fortune specified: " + fortune)
