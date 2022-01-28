@@ -85,6 +85,8 @@ class PiChan(commands.Cog):
         e = discord.Embed(title=titleString, description=f[fnum]).set_image(url=p[pnum])
         await self.config.lastFortune.set(fnum)
         await self.config.lastPic.set(pnum)
+        await self.config.lastFortunes.set(fortuneQueue)
+        await self.config.lastPics.set(picQueue)
         await ctx.send(embed=e)
     
     @commands.command()
