@@ -67,9 +67,9 @@ class PiChan(commands.Cog):
         fortuneQueue = deque(await self.config.lastFortunes())
         picQueue = deque(await self.config.lastPics())
         queueLength = await self.config.toRememberCount()
-        while not fortuneQueue.__contains__(fnum):
+        while fortuneQueue.__contains__(fnum):
             fnum = random.randint(0, len(f) - 1)
-        while not picQueue.__contains__(pnum):
+        while picQueue.__contains__(pnum):
             pnum = random.randint(0, len(p) - 1)
         
         if fortuneQueue.__len__ >= queueLength:
