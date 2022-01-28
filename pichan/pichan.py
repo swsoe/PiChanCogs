@@ -72,13 +72,13 @@ class PiChan(commands.Cog):
         while picQueue.__contains__(pnum):
             pnum = random.randint(0, len(p) - 1)
         
-        if fortuneQueue.__len__ >= queueLength:
-            while fortuneQueue.__len__ >= queueLength:
+        if len(fortuneQueue) >= queueLength:
+            while len(fortuneQueue) >= queueLength:
                 fortuneQueue.popleft()
         fortuneQueue.append(fnum)
 
-        if picQueue.__len__ >= queueLength:
-            while picQueue.__len__ >= queueLength:
+        if len(picQueue) >= queueLength:
+            while len(picQueue) >= queueLength:
                 picQueue.popleft()
         picQueue.append(fnum)
 
