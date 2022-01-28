@@ -80,7 +80,7 @@ class PiChan(commands.Cog):
         if len(picQueue) >= queueLength:
             while len(picQueue) >= queueLength:
                 picQueue.popleft()
-        picQueue.append(fnum)
+        picQueue.append(pnum)
 
         e = discord.Embed(title=titleString, description=f[fnum]).set_image(url=p[pnum])
         await self.config.lastFortune.set(fnum)
