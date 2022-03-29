@@ -57,8 +57,8 @@ class Jukebox(commands.Cog):
                 await ctx.send("Saved {} messages".format(save))
                 await ctx.send("Discarded {} messages".format(discard))
                 
-                savedLinks: Array = await self.config.guild(ctx.guild).links()
-                savedLinks.append(links)
+                savedLinks: List[str] = await self.config.guild(ctx.guild).links()
+                savedLinks.extend(links)
                 await self.config.guild(ctx.guild).links.set(savedLinks)
 
                 await ctx.send("List saved")
