@@ -43,12 +43,14 @@ class Jukebox(commands.Cog):
                 save: int = 0
                 m: discord.Message
                 for m in messages:
+                    await m.clear_reaction("❌")
+                    await m.clear_reaction("✅")
                     if m.content is None or re.search(regex, m.content) is None:
                         await m.add_reaction("❌")
                         discard += 1
                     else:
                         match = re.search(regex, m.content)
-                        links.append(match.group())
+                        links.append(match.group(0))
                         await m.add_reaction("✅")
                         save += 1
                 
@@ -67,10 +69,15 @@ class Jukebox(commands.Cog):
     @commands.command()
     async def GetList(self, ctx: commands.context.Context):
         try:
-            savedLinks: Array = await self.config.guild(ctx.guild).links()
+            savedLinks: List[str] = await self.config.guild(ctx.guild).links()
             await self.pageinateList(ctx, savedLinks)
         except BaseException as ex:
             await ctx.send(str(ex))
+
+    @commands.command()
+    async def ClearList(self, ctx: commands.context.Context):
+        await self.config.guild(ctx.guild).links.set([])
+        await ctx.send("Link list cleared")
 
     async def pageinateList(self, ctx: commands.context.Context, items: List[str]):
         for x in range(len(items)):
