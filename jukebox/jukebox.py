@@ -31,7 +31,7 @@ class Jukebox(commands.Cog):
 
                 messages = await jukeboxChannel.history(oldest_first=True).flatten()
 
-                await ctx.send(messages[0].content)
+                await ctx.send(messages[-1].content)
                 
         except BaseException as ex:
             await ctx.send(str(ex))
