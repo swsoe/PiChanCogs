@@ -8,7 +8,8 @@ class Jukebox(commands.Cog):
     def __init__(self, bot):
         self.config = Config.get_conf(self, 159753258460)
         default_guild = {
-            "channelID": ""
+            "channelID": "",
+            "links": []
         }
         self.config.register_guild(**default_guild)
 
@@ -25,8 +26,12 @@ class Jukebox(commands.Cog):
             if channelID is None:
                 await ctx.send("Channel is not set")
             else:
-                ctx.channel
                 jukeboxChannel = await ctx.bot.fetch_channel(channelID)
-                await ctx.send(jukeboxChannel.type)
+                await ctx.send("Parsing messages in : " + jukeboxChannel.name)
+
+                messages = await jukeboxChannel.history(oldest_first=True).flatten()
+
+                await ctx.send(messages[0].content)
+                
         except BaseException as ex:
             await ctx.send(str(ex))
