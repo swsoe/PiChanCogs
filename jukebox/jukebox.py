@@ -21,7 +21,7 @@ class Jukebox(commands.Cog):
     @commands.command()
     async def ParseChannel(self, ctx: commands.context.Context):
         try:
-            channelID = self.config.guild(ctx.guild).channelID()
+            channelID = await self.config.guild(ctx.guild).channelID()
             if channelID is None:
                 await ctx.send("Channel is not set")
             else:
