@@ -20,9 +20,12 @@ class Jukebox(commands.Cog):
 
     @commands.command()
     async def ParseChannel(self, ctx: commands.context.Context):
-        channelID = self.config.guild(ctx.guild).channelID()
-        if channelID is None:
-            await ctx.send("Channel is not set")
-        else:
-            jukeboxChannel = discord.TextChannel(discord.Client.get_channel(channelID))
-            await ctx.send(jukeboxChannel.type)
+        try:
+            channelID = self.config.guild(ctx.guild).channelID()
+            if channelID is None:
+                await ctx.send("Channel is not set")
+            else:
+                jukeboxChannel = discord.TextChannel(discord.Client.get_channel(channelID))
+                await ctx.send(jukeboxChannel.type)
+        except BaseException as ex:
+            await ctx.send(str(ex))
