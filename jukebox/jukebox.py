@@ -66,8 +66,11 @@ class Jukebox(commands.Cog):
 
     @commands.command()
     async def GetList(self, ctx: commands.context.Context):
-        savedLinks: Array = await self.config.guild(ctx.guild).links()
-        await self.pageinateList(ctx, savedLinks)
+        try:
+            savedLinks: Array = await self.config.guild(ctx.guild).links()
+            await self.pageinateList(ctx, savedLinks)
+        except BaseException as ex:
+            await ctx.send(str(ex))
 
     async def pageinateList(self, ctx: commands.context.Context, items: List[str]):
         for x in range(len(items)):
