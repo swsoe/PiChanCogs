@@ -25,7 +25,8 @@ class Jukebox(commands.Cog):
             if channelID is None:
                 await ctx.send("Channel is not set")
             else:
-                jukeboxChannel = discord.TextChannel(discord.Client.get_channel(channelID))
+                ctx.channel
+                jukeboxChannel = ctx.bot.fetch_channel(channelID)
                 await ctx.send(jukeboxChannel.type)
         except BaseException as ex:
             await ctx.send(str(ex))
