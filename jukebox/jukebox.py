@@ -94,6 +94,9 @@ class Jukebox(commands.Cog):
                 r: int = random.randint(0, len(savedLinks))
                 rolledTracks.append(savedLinks.pop(r))
 
+            await ctx.send("Rolled tracks:")
+            await ctx.send(rolledTracks)
+
             for s in rolledTracks:
                 await ctx.invoke(ctx.bot.get_command("play"), query=s)
         except BaseException as ex:
