@@ -7,6 +7,7 @@ from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 from typing import List
 import discord
 import re
+import random
 
 class Jukebox(commands.Cog):
 
@@ -84,10 +85,17 @@ class Jukebox(commands.Cog):
         await ctx.send("Link list cleared")
 
     @commands.command()
-    async def PlayJukebox(self, ctx: commands.context.Context):
+    async def PlayJukebox(self, ctx: commands.context.Context, queue: int):
         try:
             savedLinks: List[str] = await self.config.guild(ctx.guild).links()
-            await ctx.invoke(ctx.bot.get_command("play"), query=savedLinks[0])
+            rolledTracks: List[str] = []
+            await ctx.send("Starting jukebox")
+            for q in range(queue):
+                r: int = random.randint(0, len(savedLinks))
+                rolledTracks.append(savedLinks.pop(r))
+
+            for s in rolledTracks:
+                await ctx.invoke(ctx.bot.get_command("play"), query=s)
         except BaseException as ex:
             await ctx.send(str(ex))
 
