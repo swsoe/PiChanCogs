@@ -113,12 +113,12 @@ class Jukebox(commands.Cog):
             savedLinks: List[str] = await self.config.guild(ctx.guild).links()
             userMessageCount: dict = await self.config.guild(ctx.guild).userMessageCount()
             await ctx.send("Jukebox stats:")
-            await ctx.send("Total tracks: " + len(savedLinks))
-            await ctx.send("Total contributors: " + len(userMessageCount))
+            await ctx.send("Total tracks: {}".format(len(savedLinks)))
+            await ctx.send("Total contributors: {}".format(len(userMessageCount)))
             await ctx.send("Tracks per user:")
             p: tuple
             for k, v in userMessageCount:
-                await ctx.send(k + " : " + v)
+                await ctx.send("{} : {}".format(k, v))
         except BaseException as ex:
             await ctx.send(str(ex))
 
