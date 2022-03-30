@@ -126,6 +126,8 @@ class Jukebox(commands.Cog):
         try:
             returnList: List[discord.Message] = channel.history(oldest_first=True).flatten()
             tempList: List[discord.Message] = channel.history(oldest_first=True, after=returnList[-1]).flatten()
+            await ctx.send("Return list length: {}".format(len(returnList)))
+            await ctx.send("Temp list length: {}".format(len(tempList)))
             while len(tempList) == 100:
                 returnList.extend(tempList)
                 tempList = channel.history(oldest_first=True, after=returnList[-1]).flatten()
