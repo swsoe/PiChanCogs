@@ -38,7 +38,7 @@ class Jukebox(commands.Cog):
                 jukeboxChannel = await ctx.bot.fetch_channel(channelID)
                 await ctx.send("Parsing messages in : " + jukeboxChannel.name)
 
-                messages = await jukeboxChannel.history(oldest_first=True).flatten()
+                messages = await self.GetMessages(ctx, jukeboxChannel)
 
                 links: List[str] = []
                 discard: int = 0
@@ -121,6 +121,20 @@ class Jukebox(commands.Cog):
                 await ctx.send("{} : {}".format(k, v))
         except BaseException as ex:
             await ctx.send(str(ex))
+
+    async def GetMessages(self, ctx: commands.context.Context, channel: discord.channel.TextChannel) -> List[discord.Message]:
+        try:
+            returnList: List[discord.Message] = channel.history(oldest_first=True).flatten()
+            tempList: List[discord.Message] = channel.history(oldest_first=True, after=returnList[-1])
+            while len(tempList) == 100:
+                returnList.extend(tempList)
+                tempList = channel.history(oldest_first=True, after=returnList[-1])
+            returnList.extend(tempList)
+            await ctx.send("Pulled down {} messages".format(len(returnList)))
+            return returnList
+        except BaseException as ex:
+            ctx.send(str(ex))
+            
 
     async def pageinateList(self, ctx: commands.context.Context, items: List[str]):
         for x in range(len(items)):
