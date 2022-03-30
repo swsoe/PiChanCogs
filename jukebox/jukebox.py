@@ -2,6 +2,7 @@ from email.policy import default
 from multiprocessing.dummy import Array
 from redbot.core import Config
 from redbot.core import commands
+from redbot.cogs.audio.core import
 from redbot.core.utils.chat_formatting import box, pagify
 from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 from typing import List
@@ -37,29 +38,33 @@ class Jukebox(commands.Cog):
 
                 messages = await jukeboxChannel.history(oldest_first=True).flatten()
 
-                #await ctx.send(messages[-1].content)
-                links = []
+                links: List[str] = []
                 discard: int = 0
                 save: int = 0
                 m: discord.Message
                 for m in messages:
                     await m.clear_reaction("❌")
                     await m.clear_reaction("✅")
-                    if m.content is None or re.search(regex, m.content) is None:
+
+                    if m.content is None:
                         await m.add_reaction("❌")
                         discard += 1
                     else:
-                        match = re.search(regex, m.content)
-                        links.append(match.group(0))
-                        await m.add_reaction("✅")
-                        save += 1
+                        potentialLinks: List[str] = m.content.split("\n")
+                        for p in potentialLinks:
+                            if re.search(regex, p) is None or p in links:
+                                await m.add_reaction("❌")
+                                discard += 1
+                            else:
+                                match = re.search(regex, p)
+                                links.append(match.group(0))
+                                await m.add_reaction("✅")
+                                save += 1
                 
                 await ctx.send("Saved {} messages".format(save))
                 await ctx.send("Discarded {} messages".format(discard))
                 
-                savedLinks: List[str] = await self.config.guild(ctx.guild).links()
-                savedLinks.extend(links)
-                await self.config.guild(ctx.guild).links.set(savedLinks)
+                await self.config.guild(ctx.guild).links.set(links)
 
                 await ctx.send("List saved")
 
