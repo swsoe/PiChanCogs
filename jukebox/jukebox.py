@@ -15,7 +15,8 @@ class Jukebox(commands.Cog):
         self.config = Config.get_conf(self, 159753258460)
         default_guild = {
             "channelID": "",
-            "links": []
+            "links": [],
+            "userMessageCount": {}
         }
         self.config.register_guild(**default_guild)
 
@@ -29,6 +30,7 @@ class Jukebox(commands.Cog):
     async def ParseChannel(self, ctx: commands.context.Context):
         try:
             channelID = await self.config.guild(ctx.guild).channelID()
+            userMessageCount: dict = {}
             regex = "^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
             if channelID is None:
                 await ctx.send("Channel is not set")
@@ -60,11 +62,17 @@ class Jukebox(commands.Cog):
                                 links.append(match.group(0))
                                 await m.add_reaction("✅")
                                 save += 1
+                                userName = m.author.display_name
+                                if userName in userMessageCount.keys():
+                                    userMessageCount[userName] += 1
+                                else:
+                                    userMessageCount[userName] = 1
                 
                 await ctx.send("Saved {} messages".format(save))
                 await ctx.send("Discarded {} messages".format(discard))
                 
                 await self.config.guild(ctx.guild).links.set(links)
+                await self.config.guild(ctx.guild).userMessageCount.set(userMessageCount)
 
                 await ctx.send("List saved")
 
@@ -98,6 +106,18 @@ class Jukebox(commands.Cog):
                 await ctx.invoke(ctx.bot.get_command("play"), query=s)
         except BaseException as ex:
             await ctx.send(str(ex))
+
+    @commands.command()
+    async def JukeboxStats(self, ctx: commands.context.Context):
+        savedLinks: List[str] = await self.config.guild(ctx.guild).links()
+        userMessageCount: dict = await self.config.guild(ctx.guild).userMessageCount()
+        await ctx.send("Jukebox stats:")
+        await ctx.send("Total tracks: " + len(savedLinks))
+        await ctx.send("Total contributors: " + len(userMessageCount))
+        await ctx.send("Tracks per user:")
+        p: tuple
+        for k, v in userMessageCount:
+            await ctx.send(k + " : " + v)
 
     async def pageinateList(self, ctx: commands.context.Context, items: List[str]):
         for x in range(len(items)):
