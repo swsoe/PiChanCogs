@@ -85,8 +85,11 @@ class Jukebox(commands.Cog):
 
     @commands.command()
     async def PlayJukebox(self, ctx: commands.context.Context):
-        savedLinks: List[str] = await self.config.guild(ctx.guild).links()
-        await ctx.invoke(self.bot.get_command('play'), query=savedLinks[0])
+        try:
+            savedLinks: List[str] = await self.config.guild(ctx.guild).links()
+            await ctx.invoke(ctx.bot.get_command("play"), query=savedLinks[0])
+        except BaseException as ex:
+            await ctx.send(str(ex))
 
     async def pageinateList(self, ctx: commands.context.Context, items: List[str]):
         for x in range(len(items)):
