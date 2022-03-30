@@ -62,7 +62,7 @@ class Jukebox(commands.Cog):
                                 links.append(match.group(0))
                                 await m.add_reaction("✅")
                                 save += 1
-                                userName = m.author.display_name
+                                userName = m.author.name
                                 if userName in userMessageCount.keys():
                                     userMessageCount[userName] += 1
                                 else:
