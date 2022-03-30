@@ -2,7 +2,6 @@ from email.policy import default
 from multiprocessing.dummy import Array
 from redbot.core import Config
 from redbot.core import commands
-from redbot.cogs.audio.core import
 from redbot.core.utils.chat_formatting import box, pagify
 from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 from typing import List
