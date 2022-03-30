@@ -83,6 +83,11 @@ class Jukebox(commands.Cog):
         await self.config.guild(ctx.guild).links.set([])
         await ctx.send("Link list cleared")
 
+    @commands.command()
+    async def PlayJukebox(self, ctx: commands.context.Context):
+        savedLinks: List[str] = await self.config.guild(ctx.guild).links()
+        await ctx.invoke(self.bot.get_command('play'), query=savedLinks[0])
+
     async def pageinateList(self, ctx: commands.context.Context, items: List[str]):
         for x in range(len(items)):
             items[x] = str(x+1) + " " + items[x]
