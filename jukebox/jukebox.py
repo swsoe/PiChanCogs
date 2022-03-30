@@ -124,13 +124,13 @@ class Jukebox(commands.Cog):
 
     async def GetMessages(self, ctx: commands.context.Context, channel: discord.channel.TextChannel) -> List[discord.Message]:
         try:
-            returnList: List[discord.Message] = channel.history(oldest_first=True).flatten()
-            tempList: List[discord.Message] = channel.history(oldest_first=True, after=returnList[-1]).flatten()
+            returnList: List[discord.Message] = await channel.history(oldest_first=True).flatten()
+            tempList: List[discord.Message] = await channel.history(oldest_first=True, after=returnList[-1]).flatten()
             await ctx.send("Return list length: {}".format(len(returnList)))
             await ctx.send("Temp list length: {}".format(len(tempList)))
             while len(tempList) == 100:
                 returnList.extend(tempList)
-                tempList = channel.history(oldest_first=True, after=returnList[-1]).flatten()
+                tempList = await channel.history(oldest_first=True, after=returnList[-1]).flatten()
             returnList.extend(tempList)
             await ctx.send("Pulled down {} messages".format(len(returnList)))
             return returnList
