@@ -117,7 +117,7 @@ class Jukebox(commands.Cog):
             await ctx.send("Total contributors: {}".format(len(userMessageCount)))
             await ctx.send("Tracks per user:")
             p: tuple
-            for k, v in userMessageCount:
+            for k, v in userMessageCount.items():
                 await ctx.send("{} : {}".format(k, v))
         except BaseException as ex:
             await ctx.send(str(ex))
