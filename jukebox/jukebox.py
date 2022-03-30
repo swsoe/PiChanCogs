@@ -109,15 +109,18 @@ class Jukebox(commands.Cog):
 
     @commands.command()
     async def JukeboxStats(self, ctx: commands.context.Context):
-        savedLinks: List[str] = await self.config.guild(ctx.guild).links()
-        userMessageCount: dict = await self.config.guild(ctx.guild).userMessageCount()
-        await ctx.send("Jukebox stats:")
-        await ctx.send("Total tracks: " + len(savedLinks))
-        await ctx.send("Total contributors: " + len(userMessageCount))
-        await ctx.send("Tracks per user:")
-        p: tuple
-        for k, v in userMessageCount:
-            await ctx.send(k + " : " + v)
+        try:
+            savedLinks: List[str] = await self.config.guild(ctx.guild).links()
+            userMessageCount: dict = await self.config.guild(ctx.guild).userMessageCount()
+            await ctx.send("Jukebox stats:")
+            await ctx.send("Total tracks: " + len(savedLinks))
+            await ctx.send("Total contributors: " + len(userMessageCount))
+            await ctx.send("Tracks per user:")
+            p: tuple
+            for k, v in userMessageCount:
+                await ctx.send(k + " : " + v)
+        except BaseException as ex:
+            await ctx.send(str(ex))
 
     async def pageinateList(self, ctx: commands.context.Context, items: List[str]):
         for x in range(len(items)):
