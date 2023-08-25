@@ -1,4 +1,4 @@
 from .beanbattle import BeanBattle
 
-def setup(bot):
-    bot.add_cog(BeanBattle())
+async def setup(bot):
+    await bot.add_cog(BeanBattle())
