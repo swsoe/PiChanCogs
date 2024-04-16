@@ -5,7 +5,7 @@ import discord
 
 class Texts():
 
-    fortuneText = app_commands.Group(name="fortune text", description="Commands for fortune texts")
+    fortuneText = app_commands.Group(name="fortune_text", description="Commands for fortune texts")
 
     @fortuneText.command(name="add")
     @app_commands.describe(text="Add a new fortune text to the list")
