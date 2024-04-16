@@ -9,7 +9,7 @@ class Texts():
 
     @fortuneText.command(name="add")
     @app_commands.describe(text="Add a new fortune text to the list")
-    async def text_add(self, ctx: commands.context.Context, text: str):
+    async def text_add(self, ctx: commands.Context, text: str):
         texts: list = await self.config.guild(ctx.guild).texts()
 
         async def control_yes(*args, **kwargs):
