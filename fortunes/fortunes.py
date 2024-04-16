@@ -9,7 +9,7 @@ from . import texts
 import discord
 import random
 
-class Fortunes(commands.Cog, texts.Texts):
+class Fortunes(texts.Texts, commands.Cog):
     """Fortunes Cog - Generates random foruntes (image plus text) based on user entered data"""
 
     def __init__(self, bot):
