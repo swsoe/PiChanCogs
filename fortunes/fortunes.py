@@ -11,7 +11,8 @@ import random
 class Fortunes(commands.Cog()):
     """Fortunes Cog - Generates random foruntes (image plus text) based on user entered data"""
 
-    def __init__(self):
+    def __init__(self, bot):
+        self.bot = bot
         self.config = Config.get_conf(self, 159753258457)
         default_guild = {
             "texts": [],
