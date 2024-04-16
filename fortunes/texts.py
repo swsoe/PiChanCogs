@@ -22,7 +22,7 @@ class Texts():
             "\N{WHITE HEAVY CHECK MARK}": control_yes,
             "\N{CROSS MARK}": control_no,
         }
-        reply = await menu(ctx, ["Add this fortune?\N".format(text)], controls)
+        reply = await menu(ctx, ["Add this fortune? {}".format(text)], controls)
 
         if reply:
             texts.append[text]
