@@ -25,8 +25,6 @@ class Fortunes(commands.Cog, texts.Texts):
         self.config.register_guild(**default_guild)
 
     fortune = app_commands.Group(name="fortune", description="Fortune related commands")
-    fortuneText = app_commands.Group(name="fortune text", description="Commands for fortune texts")
-    fortunePic = app_commands.Group(name="fortune pic", description="Commands for fortune pics")
 
     @app_commands.command(name="cookie", description="Generate a new fortune")
     async def cookie(self, interaction: discord.Interaction):
