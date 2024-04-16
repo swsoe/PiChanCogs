@@ -25,18 +25,18 @@ class Fortunes(commands.Cog):
 
     fortune = app_commands.Group(name="fortune", description="Fortune related commands")
 
-    @fortune.command(name="cookie", description="Generate a new fortune")
-    async def fortune_cookie(self, interaction: discord.Interaction):
+    @app_commands.command(name="cookie", description="Generate a new fortune")
+    async def cookie(self, interaction: discord.Interaction):
         textBag: list = await self.config.guild(interaction.guild).textBag()
         picBag: list = await self.config.guild(interaction.guild).picBag()
         
         if len(textBag) == 0:
             "refill textBag"
-            textBag = await RefillTextBag(interaction)
+            textBag = await self.RefillTextBag(interaction)
 
         if len(picBag) == 0:
             "refill picBag"
-            picBag = await RefillPicBag(interaction)
+            picBag = await self.RefillPicBag(interaction)
 
         titles = [ "{} - Confucius Say", "{}'s Daily Dose of Wisdom", "{}'s Bequeathed Knowledge", "{} Assigned Brain Nectar", "Our:tm: Family-friendly Message to {}", "Tip of the Day for {}", "{}'s Pro-tip" ]
         titleString = "{}'s Fortune".format(str(interaction.author.display_name))
@@ -61,24 +61,46 @@ class Fortunes(commands.Cog):
         
         await interaction.send(embed=e)
 
-        async def RefillPicBag(interaction: commands.context.Context):
-            pics: list = await self.config.guild(interaction.guild).pics()
-            picBag: list = []
+    @fortune.command(name="text")
+    @app_commands.describe(action="The action you want to perform")
+    @app_commands.choices(action=[
+        app_commands.Choice(name="Add", value=1),
+        app_commands.Choice(name="Remove", value=2),
+        app_commands.Choice(name="List", value=3)
+    ])
+    async def text_add(self, interaction: discord.Interaction, action: app_commands.Choice[str], data: str):
+        if action.value == 1:
+            await interaction.response.send_message("Doing an add")
 
-            for index in range(len(pics)):
-                picBag.append(index)
-
-            await self.config.guild(interaction.guild).picBag.set(picBag)
-
-            return picBag
-
-        async def RefillTextBag(interaction: commands.context.Context):
+        elif action.value == 2:
             texts: list = await self.config.guild(interaction.guild).texts()
-            textBag: list = []
+            length = len(texts)
+            if data.isnumeric() and (data-1) in range(0,length):
+                texts.pop(data-1)
+                await self.config.guild(interaction.guild).texts.set(texts)
+            else:
+                await interaction.response.send_message("Please enter a number between 1 and {}".format(str(length)))
+        elif action.value == 3:
+            await interaction.response.send_message("Doing a list")
 
-            for index in range(len(texts)):
-                textBag.append(index)
+    async def RefillPicBag(self, interaction: commands.context.Context):
+        pics: list = await self.config.guild(interaction.guild).pics()
+        picBag: list = []
 
-            await self.config.guild(interaction.guild).textBag.set(textBag)
+        for index in range(len(pics)):
+            picBag.append(index)
 
-            return textBag
+        await self.config.guild(interaction.guild).picBag.set(picBag)
+
+        return picBag
+
+    async def RefillTextBag(self, interaction: commands.context.Context):
+        texts: list = await self.config.guild(interaction.guild).texts()
+        textBag: list = []
+
+        for index in range(len(texts)):
+            textBag.append(index)
+
+        await self.config.guild(interaction.guild).textBag.set(textBag)
+
+        return textBag
