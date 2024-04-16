@@ -1,6 +1,6 @@
 from redbot.core import commands
 from redbot.core import app_commands
-from redbot.core.utils.menus import menu
+from redbot.core.utils.menus import menu, close_menu
 import discord
 
 class Texts():
@@ -15,7 +15,8 @@ class Texts():
         async def control_yes(*args, **kwargs):
             return True
 
-        async def control_no(*args, **kwargs):
+        async def control_no(ctx, pages, controls, message, page, timeout):
+            await close_menu(ctx, pages, controls, message, page, timeout)
             return False
 
         controls = {
@@ -28,7 +29,7 @@ class Texts():
             texts.append[text]
             await self.config.guild(interaction.guild).texts.set(texts)
         else:
-            return
+            await interaction.response.send_message("Got cold feet on that one huh?")
     
     @fortuneText.command(name="remove")
     @app_commands.describe(index="The index of the fortune text you wish to remove")
