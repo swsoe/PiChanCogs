@@ -9,8 +9,8 @@ class Texts():
 
     @fortuneText.command(name="add")
     @app_commands.describe(text="Add a new fortune text to the list")
-    async def text_add(self, ctx: commands.context.Context, interaction: discord.Interaction, text: str):
-        texts: list = await self.config.guild(interaction.guild).texts()
+    async def text_add(self, ctx: commands.context.Context, text: str):
+        texts: list = await self.config.guild(ctx.guild).texts()
 
         async def control_yes(*args, **kwargs):
             return True
@@ -26,7 +26,7 @@ class Texts():
 
         if reply:
             texts.append[text]
-            await self.config.guild(interaction.guild).texts.set(texts)
+            await self.config.guild(ctx.guild).texts.set(texts)
         else:
             return
     
