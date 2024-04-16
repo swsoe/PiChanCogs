@@ -5,10 +5,11 @@ from redbot.core.utils.chat_formatting import box, pagify
 from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 from redbot.core.data_manager import cog_data_path
 from typing import List
+from . import texts
 import discord
 import random
 
-class Fortunes(commands.Cog):
+class Fortunes(commands.Cog, texts.Texts):
     """Fortunes Cog - Generates random foruntes (image plus text) based on user entered data"""
 
     def __init__(self, bot):
@@ -24,6 +25,8 @@ class Fortunes(commands.Cog):
         self.config.register_guild(**default_guild)
 
     fortune = app_commands.Group(name="fortune", description="Fortune related commands")
+    fortuneText = app_commands.Group(name="fortune text", description="Commands for fortune texts")
+    fortunePic = app_commands.Group(name="fortune pic", description="Commands for fortune pics")
 
     @app_commands.command(name="cookie", description="Generate a new fortune")
     async def cookie(self, interaction: discord.Interaction):
@@ -60,28 +63,6 @@ class Fortunes(commands.Cog):
         await self.config.guild(interaction.guild).picBag.set(picBag)
         
         await interaction.send(embed=e)
-
-    @fortune.command(name="text")
-    @app_commands.describe(action="The action you want to perform")
-    @app_commands.choices(action=[
-        app_commands.Choice(name="Add", value=1),
-        app_commands.Choice(name="Remove", value=2),
-        app_commands.Choice(name="List", value=3)
-    ])
-    async def text_add(self, interaction: discord.Interaction, action: app_commands.Choice[int], data: str):
-        if action.value == 1:
-            await interaction.response.send_message("Doing an add")
-
-        elif action.value == 2:
-            texts: list = await self.config.guild(interaction.guild).texts()
-            length = len(texts)
-            if data.isnumeric() and (data-1) in range(0,length):
-                texts.pop(data-1)
-                await self.config.guild(interaction.guild).texts.set(texts)
-            else:
-                await interaction.response.send_message("Please enter a number between 1 and {}".format(str(length)))
-        elif action.value == 3:
-            await interaction.response.send_message("Doing a list")
 
     async def RefillPicBag(self, interaction: commands.context.Context):
         pics: list = await self.config.guild(interaction.guild).pics()
