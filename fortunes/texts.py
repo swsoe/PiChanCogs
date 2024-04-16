@@ -11,7 +11,6 @@ class Texts():
     @app_commands.describe(text="Add a new fortune text to the list")
     async def text_add(self, interaction: discord.Interaction, text: str):
         texts: list = await self.config.guild(interaction.guild).texts()
-        await interaction.response.send_message("Starting process")
         
         async def control_yes(*args, **kwargs):
             return True
@@ -23,11 +22,11 @@ class Texts():
             "\N{WHITE HEAVY CHECK MARK}": control_yes,
             "\N{CROSS MARK}": control_no,
         }
-        reply = await menu(ctx, ["Add this fortune? {}".format(text)], controls)
+        reply = await menu(await self.bot.get_context(interaction), ["Add this fortune? {}".format(text)], controls)
 
         if reply:
             texts.append[text]
-            await self.config.guild(ctx.guild).texts.set(texts)
+            await self.config.guild(interaction.guild).texts.set(texts)
         else:
             return
     
