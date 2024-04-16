@@ -68,7 +68,7 @@ class Fortunes(commands.Cog):
         app_commands.Choice(name="Remove", value=2),
         app_commands.Choice(name="List", value=3)
     ])
-    async def text_add(self, interaction: discord.Interaction, action: app_commands.Choice[str], data: str):
+    async def text_add(self, interaction: discord.Interaction, action: app_commands.Choice[int], data: str):
         if action.value == 1:
             await interaction.response.send_message("Doing an add")
 
