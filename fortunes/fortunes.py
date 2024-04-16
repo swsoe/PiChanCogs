@@ -8,7 +8,7 @@ from typing import List
 import discord
 import random
 
-class Fortunes(commands.Cog()):
+class Fortunes(commands.Cog):
     """Fortunes Cog - Generates random foruntes (image plus text) based on user entered data"""
 
     def __init__(self, bot):
