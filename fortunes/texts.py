@@ -31,6 +31,7 @@ class Texts():
             texts.append(text)
             await self.config.guild(ctx.guild).texts.set(texts)
             await ctx.send("Fortune text added")
+            return
         else:
             await ctx.send("Got cold feet on that one huh?")
             return
