@@ -1,4 +1,5 @@
 from redbot.core import commands
+from redbot.core import Config
 from redbot.core import app_commands
 from redbot.core.utils.menus import menu, close_menu
 import discord
@@ -10,7 +11,6 @@ class Texts():
     @fortuneText.command(name="add")
     @app_commands.describe(text="Add a new fortune text to the list")
     async def text_add(self, interaction: discord.Interaction, text: str):
-        texts: list = await self.config.guild(interaction.guild).texts()
         
         async def control_yes(*args, **kwargs):
             return True
@@ -26,7 +26,8 @@ class Texts():
         reply = await menu(await self.bot.get_context(interaction), ["Add this fortune? '{}'".format(text)], controls)
 
         if reply:
-            texts.append[text]
+            texts: list = await self.config.guild(interaction.guild).texts()
+            texts.append(text)
             await self.config.guild(interaction.guild).texts.set(texts)
         else:
             #await interaction.response.send_message("Got cold feet on that one huh?")
