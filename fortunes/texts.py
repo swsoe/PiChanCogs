@@ -13,7 +13,8 @@ class Texts():
     async def text_add(self, interaction: discord.Interaction, text: str):
         ctx = await self.bot.get_context(interaction)
 
-        async def control_yes(*args, **kwargs):
+        async def control_yes(ctx, pages, controls, message, page, timeout, emoji):
+            await close_menu(ctx, pages, controls, message, page, timeout, emoji)
             return True
 
         async def control_no(ctx, pages, controls, message, page, timeout, emoji):
