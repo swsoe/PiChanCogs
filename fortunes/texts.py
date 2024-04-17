@@ -15,7 +15,7 @@ class Texts():
         async def control_yes(*args, **kwargs):
             return True
 
-        async def control_no(ctx, pages, controls, message, page, timeout):
+        async def control_no(ctx, pages, controls, message, page, timeout, emoji):
             await close_menu(ctx, pages, controls, message, page, timeout)
             return False
 
