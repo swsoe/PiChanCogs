@@ -23,7 +23,7 @@ class Texts():
             "\N{WHITE HEAVY CHECK MARK}": control_yes,
             "\N{CROSS MARK}": control_no,
         }
-        reply = await menu(await self.bot.get_context(interaction), ["Add this fortune? {}".format(text)], controls)
+        reply = await menu(await self.bot.get_context(interaction), ["Add this fortune? '{}'".format(text)], controls)
 
         if reply:
             texts.append[text]
@@ -32,6 +32,11 @@ class Texts():
             #await interaction.response.send_message("Got cold feet on that one huh?")
             return
     
+    @fortuneText.command(name="list")
+    async def text_add(self, interaction: discord.Interaction):  
+        texts: list = await self.config.guild(interaction.guild).texts()
+        await menu(await self.bot.get_context(interaction), texts)
+
     @fortuneText.command(name="remove")
     @app_commands.describe(index="The index of the fortune text you wish to remove")
     async def text_add(self, interaction: discord.Interaction, index: int):
