@@ -29,7 +29,8 @@ class Texts():
             texts.append[text]
             await self.config.guild(interaction.guild).texts.set(texts)
         else:
-            await interaction.response.send_message("Got cold feet on that one huh?")
+            #await interaction.response.send_message("Got cold feet on that one huh?")
+            return
     
     @fortuneText.command(name="remove")
     @app_commands.describe(index="The index of the fortune text you wish to remove")
