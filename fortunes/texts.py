@@ -33,7 +33,7 @@ class Texts():
             return
     
     @fortuneText.command(name="list")
-    async def text_add(self, interaction: discord.Interaction):  
+    async def text_list(self, interaction: discord.Interaction):  
         texts: list = await self.config.guild(interaction.guild).texts()
         await menu(await self.bot.get_context(interaction), texts)
 
