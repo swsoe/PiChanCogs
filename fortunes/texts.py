@@ -12,35 +12,44 @@ class Texts():
     @app_commands.describe(text="Add a new fortune text to the list")
     async def text_add(self, interaction: discord.Interaction, text: str):
         ctx = await self.bot.get_context(interaction)
+        try:
+            async def control_yes(ctx, pages, controls, message, page, timeout, emoji):
+                await close_menu(ctx, pages, controls, message, page, timeout, emoji)
+                return True
 
-        async def control_yes(ctx, pages, controls, message, page, timeout, emoji):
-            await close_menu(ctx, pages, controls, message, page, timeout, emoji)
-            return True
+            async def control_no(ctx, pages, controls, message, page, timeout, emoji):
+                await close_menu(ctx, pages, controls, message, page, timeout, emoji)
+                return False
 
-        async def control_no(ctx, pages, controls, message, page, timeout, emoji):
-            await close_menu(ctx, pages, controls, message, page, timeout, emoji)
-            return False
+            controls = {
+                "\N{WHITE HEAVY CHECK MARK}": control_yes,
+                "\N{CROSS MARK}": control_no,
+            }
+            reply = await menu(ctx, ["Add this fortune? '{}'".format(text)], controls)
 
-        controls = {
-            "\N{WHITE HEAVY CHECK MARK}": control_yes,
-            "\N{CROSS MARK}": control_no,
-        }
-        reply = await menu(ctx, ["Add this fortune? '{}'".format(text)], controls)
-
-        if reply:
-            texts: list = await self.config.guild(ctx.guild).texts()
-            texts.append(text)
-            await self.config.guild(ctx.guild).texts.set(texts)
-            await ctx.send("Fortune text added")
-            return
-        else:
-            await ctx.send("Got cold feet on that one huh?")
-            return
+            if reply:
+                texts: list = await self.config.guild(ctx.guild).texts()
+                texts.append(text)
+                await self.config.guild(ctx.guild).texts.set(texts)
+                await ctx.send("Fortune text added")
+                return
+            else:
+                await ctx.send("Got cold feet on that one huh?")
+                return
+        except BaseException as ex:
+            await ctx.send(str(ex))
     
     @fortuneText.command(name="list")
     async def text_list(self, interaction: discord.Interaction):  
-        texts: list = await self.config.guild(interaction.guild).texts()
-        await menu(await self.bot.get_context(interaction), texts)
+        ctx = await self.bot.get_context(interaction)
+        try:
+            texts: list = await self.config.guild(interaction.guild).texts()
+            for i in range(len(texts)):
+                texts[i] = str(i+1) + ": " + texts[i]
+            await menu(await self.bot.get_context(interaction), texts)
+        except BaseException as ex:
+            await ctx.send(str(ex))
+
 
     @fortuneText.command(name="remove")
     @app_commands.describe(index="The index of the fortune text you wish to remove")
