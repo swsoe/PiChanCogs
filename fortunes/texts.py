@@ -58,8 +58,9 @@ class Texts():
             texts: list = await self.config.guild(interaction.guild).texts()
             length = len(texts)
             if (index-1) in range(0,length):
-                texts.pop(index-1)
+                removedText: str = texts.pop(index-1)
                 await self.config.guild(interaction.guild).texts.set(texts)
+                await ctx.send("Fortune text removed: " + removedText)
             else:
                 await interaction.response.send_message("Please enter a number between 1 and {}".format(str(length)))
         except BaseException as ex:
