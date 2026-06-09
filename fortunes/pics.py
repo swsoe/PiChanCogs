@@ -10,7 +10,6 @@ class Pics():
     fortunePic = app_commands.Group(name="fortune-pic", description="Commands for fortune pics")
 
     @fortunePic.command(name="add")
-    @app_commands.describe(text="Add a new fortune pic to the list")
     async def pic_add(self, interaction: discord.Interaction, picLink: str):
         ctx = await self.bot.get_context(interaction)
         try:
@@ -61,7 +60,6 @@ class Pics():
 
 
     @fortunePic.command(name="remove")
-    @app_commands.describe(index="The index of the fortune pic you wish to remove")
     async def pic_remove(self, interaction: discord.Interaction, index: int):
         ctx = await self.bot.get_context(interaction)
         try:
