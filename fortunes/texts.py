@@ -53,13 +53,17 @@ class Texts():
     @fortuneText.command(name="remove")
     @app_commands.describe(index="The index of the fortune text you wish to remove")
     async def text_add(self, interaction: discord.Interaction, index: int):
-        texts: list = await self.config.guild(interaction.guild).texts()
-        length = len(texts)
-        if index.isnumeric() and (index-1) in range(0,length):
-            texts.pop(index-1)
-            await self.config.guild(interaction.guild).texts.set(texts)
-        else:
-            await interaction.response.send_message("Please enter a number between 1 and {}".format(str(length)))
+        ctx = await self.bot.get_context(interaction)
+        try:
+            texts: list = await self.config.guild(interaction.guild).texts()
+            length = len(texts)
+            if index.isnumeric() and (index-1) in range(0,length):
+                texts.pop(index-1)
+                await self.config.guild(interaction.guild).texts.set(texts)
+            else:
+                await interaction.response.send_message("Please enter a number between 1 and {}".format(str(length)))
+        except BaseException as ex:
+            await ctx.send(str(ex))
 
     
     async def pageinateList(self, ctx: commands.context.Context, items: list[str]):
