@@ -9,7 +9,7 @@ class Pics():
 
     fortunePic = app_commands.Group(name="fortune-pic", description="Commands for fortune pics")
 
-    @fortunePic.command(name="add")
+    @fortunePic.command(name="add", description="Add a pic link to the list")
     async def pic_add(self, interaction: discord.Interaction, picLink: str):
         ctx = await self.bot.get_context(interaction)
         try:
@@ -49,7 +49,7 @@ class Pics():
         except BaseException as ex:
             await ctx.send(str(ex))
     
-    @fortunePic.command(name="list")
+    @fortunePic.command(name="list", description="Display all pic links currently saved")
     async def pic_list(self, interaction: discord.Interaction):  
         ctx = await self.bot.get_context(interaction)
         try:
@@ -59,7 +59,7 @@ class Pics():
             await ctx.send(str(ex))
 
 
-    @fortunePic.command(name="remove")
+    @fortunePic.command(name="remove", description="Remove a pic link")
     async def pic_remove(self, interaction: discord.Interaction, index: int):
         ctx = await self.bot.get_context(interaction)
         try:
