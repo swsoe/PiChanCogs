@@ -44,10 +44,9 @@ class Texts():
         ctx = await self.bot.get_context(interaction)
         try:
             texts: list = await self.config.guild(interaction.guild).texts()
-            menuList: list
             for i in range(len(texts)):
-                menuList.append(str(i+1) + ": " + texts[i])
-            await menu(await self.bot.get_context(interaction), menuList)
+                texts[i] = str(i+1) + ": " + texts[i]
+            await menu(await self.bot.get_context(interaction), texts)
         except BaseException as ex:
             await ctx.send(str(ex))
 
