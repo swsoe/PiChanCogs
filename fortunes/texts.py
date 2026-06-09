@@ -1,7 +1,8 @@
 from redbot.core import commands
 from redbot.core import Config
 from redbot.core import app_commands
-from redbot.core.utils.menus import menu, close_menu
+from redbot.core.utils.chat_formatting import box, pagify
+from redbot.core.utils.menus import menu, DEFAULT_CONTROLS, close_menu
 import discord
 
 class Texts():
@@ -44,9 +45,7 @@ class Texts():
         ctx = await self.bot.get_context(interaction)
         try:
             texts: list = await self.config.guild(interaction.guild).texts()
-            for i in range(len(texts)):
-                texts[i] = str(i+1) + ": " + texts[i]
-            await menu(await self.bot.get_context(interaction), texts)
+            self.pageinateList(ctx, texts)
         except BaseException as ex:
             await ctx.send(str(ex))
 
@@ -61,3 +60,25 @@ class Texts():
             await self.config.guild(interaction.guild).texts.set(texts)
         else:
             await interaction.response.send_message("Please enter a number between 1 and {}".format(str(length)))
+
+    
+    async def pageinateList(self, ctx: commands.context.Context, items: list[str]):
+        for x in range(len(items)):
+            items[x] = str(x+1) + " " + items[x]
+        message = "\n".join(items)
+        temp = list(pagify(message, delims=["\n"], page_length=1850))
+        item_list = []
+        count = 0
+        for page in temp:
+            count += 1
+            page = page.lstrip("\n")
+            page = (
+                ("Items:\n")
+                + page
+                + ("\n\nPage {page}/{total}").format(page=count, total=len(temp))
+            )
+            item_list.append(box("".join(page), "diff"))
+        if len(item_list) == 1:
+            await ctx.send(item_list[0])
+            return
+        await menu(ctx, item_list, DEFAULT_CONTROLS)
