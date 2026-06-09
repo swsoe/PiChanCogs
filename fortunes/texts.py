@@ -45,7 +45,7 @@ class Texts():
         ctx = await self.bot.get_context(interaction)
         try:
             texts: list = await self.config.guild(interaction.guild).texts()
-            self.pageinateList(ctx, texts)
+            await self.pageinateList(ctx, texts)
         except BaseException as ex:
             await ctx.send(str(ex))
 
