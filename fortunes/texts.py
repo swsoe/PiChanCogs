@@ -57,7 +57,7 @@ class Texts():
         try:
             texts: list = await self.config.guild(interaction.guild).texts()
             length = len(texts)
-            if index.isnumeric() and (index-1) in range(0,length):
+            if (index-1) in range(0,length):
                 texts.pop(index-1)
                 await self.config.guild(interaction.guild).texts.set(texts)
             else:
