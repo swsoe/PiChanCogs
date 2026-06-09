@@ -6,10 +6,11 @@ from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 from redbot.core.data_manager import cog_data_path
 from typing import List
 from . import texts
+from . import pics
 import discord
 import random
 
-class Fortunes(texts.Texts, commands.Cog):
+class Fortunes(texts.Texts, pics.Pics, commands.Cog):
     """Fortunes Cog - Generates random foruntes (image plus text) based on user entered data"""
 
     def __init__(self, bot):
