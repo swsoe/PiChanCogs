@@ -41,11 +41,11 @@ class Fortunes(texts.Texts, pics.Pics, commands.Cog):
             picBag = await self.RefillPicBag(interaction)
 
         titles = [ "{} - Confucius Say", "{}'s Daily Dose of Wisdom", "{}'s Bequeathed Knowledge", "{} Assigned Brain Nectar", "Our:tm: Family-friendly Message to {}", "Tip of the Day for {}", "{}'s Pro-tip" ]
-        titleString = "{}'s Fortune".format(str(interaction.author.display_name))
+        titleString = "{}'s Fortune".format(str(interaction.user.display_name))
         
         if random.randint(1, 4) == 4:
             tnum = random.randint(0, len(titles) - 1)
-            titleString = titles[tnum].format(str(interaction.author.display_name))
+            titleString = titles[tnum].format(str(interaction.user.display_name))
         
         textBagIndex: int = random.randint(0, len(textBag) - 1)
         textsIndex: int = textBag.pop(textBagIndex)
