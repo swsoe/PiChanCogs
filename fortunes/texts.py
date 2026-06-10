@@ -9,8 +9,7 @@ class Texts():
 
     fortuneText = app_commands.Group(name="fortune-text", description="Commands for fortune texts")
 
-    @fortuneText.command(name="add")
-    @app_commands.describe(text="Add a new fortune text to the list")
+    @fortuneText.command(name="add", description="Add a fortune text to the list")    
     async def text_add(self, interaction: discord.Interaction, text: str):
         ctx = await self.bot.get_context(interaction)
         try:
@@ -40,7 +39,7 @@ class Texts():
         except BaseException as ex:
             await ctx.send(str(ex))
     
-    @fortuneText.command(name="list")
+    @fortuneText.command(name="list", description="Display all fortune texts currently saved")
     async def text_list(self, interaction: discord.Interaction):  
         ctx = await self.bot.get_context(interaction)
         try:
@@ -50,9 +49,8 @@ class Texts():
             await ctx.send(str(ex))
 
 
-    @fortuneText.command(name="remove")
-    @app_commands.describe(index="The index of the fortune text you wish to remove")
-    async def text_add(self, interaction: discord.Interaction, index: int):
+    @fortuneText.command(name="remove", description="Remove a fortune text")
+    async def text_remove(self, interaction: discord.Interaction, index: int):
         ctx = await self.bot.get_context(interaction)
         try:
             texts: list = await self.config.guild(interaction.guild).texts()
