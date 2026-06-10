@@ -10,16 +10,16 @@ class Pics():
     fortunePic = app_commands.Group(name="fortune-pic", description="Commands for fortune pics")
 
     @fortunePic.command(name="add", description="Add a pic link to the list")
-    async def pic_add(self, interaction: discord.Interaction, picLink: str):
+    async def pic_add(self, interaction: discord.Interaction, link: str):
         ctx = await self.bot.get_context(interaction)
         try:
             pics: list = await self.config.guild(ctx.guild).pics()
             fileTypes: list = await self.config.guild(ctx.guild).fileTypes()
             
-            lastFour = picLink[-4:]
-            if picLink is None or picLink == "":
+            lastFour = link[-4:]
+            if link is None or link == "":
                 await ctx.send("Please enter a picture link")
-            elif picLink in pics:
+            elif link in pics:
                 await ctx.send("Picture already present")
             elif lastFour.upper() not in (fileType.upper() for fileType in fileTypes):
                 await ctx.send("Picture link not of supported type")
@@ -36,10 +36,10 @@ class Pics():
                     "\N{WHITE HEAVY CHECK MARK}": control_yes,
                     "\N{CROSS MARK}": control_no,
                 }
-                reply = await menu(ctx, ["Add this fortune pic? '{}'".format(picLink)], controls)
+                reply = await menu(ctx, ["Add this fortune pic? '{}'".format(link)], controls)
 
                 if reply:
-                    pics.append(picLink)
+                    pics.append(link)
                     await self.config.guild(ctx.guild).pics.set(pics)
                     await ctx.send("Fortune pic added")
                     return
