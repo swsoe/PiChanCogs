@@ -61,7 +61,7 @@ class Fortunes(texts.Texts, pics.Pics, commands.Cog):
         await self.config.guild(interaction.guild).textBag.set(textBag)
         await self.config.guild(interaction.guild).picBag.set(picBag)
         
-        await interaction.send(embed=e)
+        await interaction.response.send_message(embed=e)
 
     async def RefillPicBag(self, interaction: commands.context.Context):
         pics: list = await self.config.guild(interaction.guild).pics()
